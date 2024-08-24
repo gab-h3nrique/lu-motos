@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { NotificationProvider } from "@/contexts/NotificationContext";
+import { UserProvider } from "@/contexts/UserContext";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,8 +20,18 @@ export default function RootLayout({ children }: Props) {
   return (
 
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+      <body className={`flex w-screen h-screen bg-background-1 relative selection:text-primary selection:bg-primary-opacity`}>
+
+        <NotificationProvider>
+          <UserProvider>
+            
+            {children}
+
+          </UserProvider>
+        </NotificationProvider>
+
+        <div id="portal"></div>
+        
       </body>
     </html>
     

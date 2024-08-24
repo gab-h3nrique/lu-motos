@@ -40,6 +40,14 @@
   }
 }
 
+@layer base {
+
+  .html {
+    @apply selection:text-purple-900
+  }
+
+}
+
 @layer components {
 
   .border {
@@ -50,13 +58,13 @@
     @apply text-[32px] font-bold
   }
   .subtitle {
-    @apply text-[24px] font-semibold
+    @apply text-[24px] font-normal
   }
   .paragraph {
-    @apply text-[20px] font-semibold
+    @apply text-[20px] font-normal
   }
   .description {
-    @apply text-[16px] font-semibold
+    @apply text-[16px] font-normal
   }
   .label {
     @apply text-[11px] font-normal
