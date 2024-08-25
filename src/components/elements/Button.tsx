@@ -8,7 +8,7 @@ function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 
   return (
 
-    <button className={`w-fit description border bg-background-2 text-color-1 font-semibold py-1.5 px-4 rounded-lg hover:scale-[1.01] duration-150 ${className}`} {...rest}>
+    <button className={`button w-fit description border bg-background-2 text-color-1 font-semibold py-1.5 px-4 rounded-lg ${className}`} {...rest}>
       {children}
     </button>
 

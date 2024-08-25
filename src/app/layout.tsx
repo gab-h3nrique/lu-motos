@@ -20,7 +20,7 @@ export default function RootLayout({ children }: Props) {
   return (
 
     <html lang="en">
-      <body className={`flex w-screen h-screen bg-background-1 relative selection:text-primary selection:bg-primary-opacity`}>
+      <body className={`flex flex-col w-screen h-screen bg-background-1 relative selection:text-primary selection:bg-primary-opacity`}>
 
         <NotificationProvider>
           <UserProvider>

@@ -54,7 +54,7 @@ export const NotificationProvider = ({ children }:any) => {
 
         <NotificationContext.Provider value={contextValue}>
 
-            <div className='w-full h-fit flex absolute z-50 pointer-events-none overflow-hidden'>
+            <section className='w-full h-fit flex absolute z-50 pointer-events-none overflow-hidden'>
 
                 <div className='relative flex flex-col ml-auto p-3 gap-3'>
 
@@ -62,7 +62,7 @@ export const NotificationProvider = ({ children }:any) => {
 
                 </div>
 
-            </div>
+            </section>
 
             {children}
 

@@ -47,7 +47,7 @@ export function Description(props: React.ButtonHTMLAttributes<HTMLButtonElement>
 
     return (
 
-        <h1 className={`description text-color-3 ${className}`} {...rest as any}>
+        <h1 className={`description text-color-2 ${className}`} {...rest as any}>
             {children}
         </h1>
 
@@ -60,7 +60,7 @@ export function Label(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 
     return (
 
-        <h1 className={`label text-color-3 ${className}`} {...rest as any}>
+        <h1 className={`label text-color-2 ${className}`} {...rest as any}>
             {children}
         </h1>
 

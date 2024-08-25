@@ -12,7 +12,7 @@ import Api from '@/providers/http'
 import React, { memo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-function page() {
+function Page() {
 
   const { user, setUser } = useUser()
 
@@ -48,7 +48,7 @@ function page() {
     
       notification.push({ type: 'success', title: 'Sucesso!', description: 'Logado com sucesso!.', time: 1000 })
 
-      setTimeout(()=> router.push('/auth/atendimento'), 200)
+      setTimeout(()=> router.push('/auth'), 200)
 
       return 
       
@@ -66,7 +66,7 @@ function page() {
 
   return (
     
-    <div className='flex w-full h-full'>
+    <main className='flex w-full h-full'>
 
       <section className="gap-10 flex flex-col justify-center items-center w-full h-full bg-background-1">
 
@@ -105,10 +105,10 @@ function page() {
       </section>
 
 
-    </div>
+    </main>
 
   )
 
 }
 
-export default memo(page)
+export default memo(Page)

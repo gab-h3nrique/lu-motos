@@ -54,6 +54,10 @@
     @apply border-[1px] border-border;
   }
 
+  .button {
+    @apply hover:scale-[1.01] duration-150 cursor-pointer
+  }
+
   .title {
     @apply text-[32px] font-bold
   }

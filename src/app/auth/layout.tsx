@@ -1,3 +1,5 @@
+import Aside from '@/components/Aside'
+import Header from '@/components/Header'
 import { AppProvider } from '@/contexts/AppContext'
 import { UserProvider } from '@/contexts/UserContext'
 import React from 'react'
@@ -15,8 +17,24 @@ export default function layout({children}: Props) {
 
         <AppProvider>
 
-            <div>{children}</div>
-            
+            <section className='flex w-full h-full flex-col'>
+
+                <Header/>
+
+                <section className={'flex w-full h-full'}>
+
+                    <Aside/>
+
+                    <main className='p-4 flex w-full h-full'>
+
+                        {children}
+
+                    </main>
+
+                </section>
+
+            </section>
+
         </AppProvider>
 
     )
