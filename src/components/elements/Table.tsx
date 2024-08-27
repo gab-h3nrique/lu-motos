@@ -1,7 +1,7 @@
 
 import React, { memo } from 'react'
 
-export const Table = memo((props: React.TableHTMLAttributes<HTMLTableElement>) => {
+export const Table = (props: React.TableHTMLAttributes<HTMLTableElement>) => {
 
   const { className, children, ...rest} = props
 
@@ -12,8 +12,8 @@ export const Table = memo((props: React.TableHTMLAttributes<HTMLTableElement>) =
     </table>
 
   )
-})
-export const Tr = memo((props: React.HTMLAttributes<HTMLTableRowElement>) => {
+}
+export const Tr = (props: React.HTMLAttributes<HTMLTableRowElement>) => {
 
   const { className, children, ...rest} = props
 
@@ -24,8 +24,8 @@ export const Tr = memo((props: React.HTMLAttributes<HTMLTableRowElement>) => {
     </tr>
 
   )
-})
-export const Td = memo((props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
+}
+export const Td = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   const { className, children, ...rest} = props
 
@@ -36,9 +36,9 @@ export const Td = memo((props: React.TdHTMLAttributes<HTMLTableDataCellElement>)
     </td>
 
   )
-})
+}
 
-export const Th = memo((props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
+export const Th = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   const { className, children, ...rest} = props
 
@@ -49,4 +49,4 @@ export const Th = memo((props: React.TdHTMLAttributes<HTMLTableDataCellElement>)
     </th>
 
   )
-})
+}
