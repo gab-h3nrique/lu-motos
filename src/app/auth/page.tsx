@@ -5,7 +5,7 @@ import React, { memo, useState } from 'react'
 import Button from '@/components/elements/Button'
 import { Subtitle, Title } from '@/components/texts/Texts'
 
-const page = () => {
+const Page = () => {
 
 
 
@@ -41,4 +41,4 @@ const page = () => {
 
 }
 
-export default memo(page)
+export default memo(Page)

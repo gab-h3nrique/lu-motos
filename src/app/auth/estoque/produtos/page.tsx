@@ -11,7 +11,7 @@ import { ProductType } from '@/types/productType'
 import { useRouter } from 'next/navigation'
 import React, { memo, useEffect, useState } from 'react'
 
-function page() {
+function Page() {
 
   const router = useRouter()
 
@@ -111,4 +111,4 @@ function page() {
 
 }
 
-export default memo(page)
+export default memo(Page)

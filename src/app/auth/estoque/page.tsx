@@ -6,7 +6,7 @@ import { Description, Subtitle } from '@/components/texts/Texts'
 import { useRouter } from 'next/navigation'
 import React, { memo } from 'react'
 
-function page() {
+function Page() {
 
   const router = useRouter()
 
@@ -50,4 +50,4 @@ function page() {
   )
 }
 
-export default memo(page)
+export default memo(Page)
