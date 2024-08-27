@@ -2,21 +2,72 @@
 
 import Button from '@/components/elements/Button'
 import Input from '@/components/elements/Input'
-import { Table, Tbody, Td, Thead, Tr } from '@/components/elements/Table'
+import { Table, Td, Tr, Th } from '@/components/elements/Table'
 import Svg from '@/components/icons/Svg'
 import { Description, Subtitle } from '@/components/texts/Texts'
+import { useNotification } from '@/hooks/useNotaification'
+import Api from '@/providers/http'
+import { ProductType } from '@/types/productType'
 import { useRouter } from 'next/navigation'
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 
 function page() {
 
   const router = useRouter()
 
-  const [ filter, setFilter ] = useState({ input: '', date: null, })
+  const notification = useNotification()
+
+  const [ filter, setFilter ] = useState({ input: '', date: '', })
+
+  const [ products, setProducts ] = useState<ProductType[]>([])
+
+  const [ page, setPage ] = useState(1)
+
+  const [ limit, setLimit ] = useState(25)
+
+  const [ load, setLoad ] = useState(false)
+
+  async function getPaginatedProduct(pageParam: number, search?: boolean) {
+
+    try {
+
+      setLoad(true)
+
+      console.log('vish...')
+
+      const { products, success, message, ...rest } = await Api.get('/api/auth/products', { page: pageParam, limit: limit, ...filter })
+
+      console.log('rest: ', rest)
+
+      if(!success) return notification.push({ type: 'error', title: 'Atenção', description: 'Nenhum produto foi encontrado.' })
+
+      setPage(pageParam)
+
+      if(search) setProducts(products)
+      else setProducts(prev => ([...prev, ...products]))
+      
+    } catch (error) {
+
+      return notification.push({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os produtos.' })
+      
+    } finally {
+
+      setLoad(false)
+
+    }
+
+  }
+
+
+  useEffect(()=> {
+
+    getPaginatedProduct(1)
+
+  }, [])
 
   return (
 
-    <div className=' gap-1 w-full h-full flex flex-col'>
+    <div className='gap-1 w-full h-full flex flex-col'>
 
       <Subtitle className='font-semibold'>Produtos</Subtitle>
 
@@ -36,22 +87,20 @@ function page() {
         </div>
 
         <Table>
-          <Thead>
-            <Tr>
-              <Td>Header 1</Td>
-              <Td>Header 2</Td>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td>Data 1</Td>
-              <Td>Data 2</Td>
-            </Tr>
-            <Tr>
-              <Td>Data 3</Td>
-              <Td>Data 4</Td>
-            </Tr>
-          </Tbody>
+          <Tr>
+            <Th>Data</Th>
+            <Th>Data</Th>
+          </Tr>
+          <Tr>
+            <Td>Data</Td>
+            <Td>Data</Td>
+          </Tr>
+          <Tr>
+            <Td>Data</Td>
+            <Td>Data</Td>
+            <Td>Data</Td>
+            <Td>Data</Td>
+          </Tr>
         </Table>
 
       </section>
