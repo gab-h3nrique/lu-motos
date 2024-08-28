@@ -7,9 +7,21 @@ export const Table = (props: React.TableHTMLAttributes<HTMLTableElement>) => {
 
   return (
 
-    <table className={`gap-[1px] w-fit h-fit flex flex-col border bg-border rounded-lg overflow-hidden ${className}`} {...rest}>
+    <table className={`gap-[1px] w-fit h-fit flex flex-col border bg-border rounded-xl overflow-hidden ${className}`} {...rest}>
       {children}
     </table>
+
+  )
+}
+export const Tbody = (props: React.HTMLAttributes<HTMLTableSectionElement>) => {
+
+  const { className, children, ...rest} = props
+
+  return (
+
+    <tbody className={`gap-[1px] w-fit h-fit flex flex-col ${className}`} {...rest}>
+      {children}
+    </tbody>
 
   )
 }
@@ -31,7 +43,7 @@ export const Td = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   return (
 
-    <td className={`p-2 bg-background-1 text-color-2 ${className}`} {...rest}>
+    <td className={`p-2 w-full bg-background-1 text-color-2 truncate ${className}`} {...rest}>
       {children}
     </td>
 
@@ -44,7 +56,7 @@ export const Th = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   return (
 
-    <th className={`p-2 bg-background-1 text-color-2 ${className}`} {...rest}>
+    <th className={`p-2 w-full bg-background-1 text-color-2 truncate ${className}`} {...rest}>
       {children}
     </th>
 

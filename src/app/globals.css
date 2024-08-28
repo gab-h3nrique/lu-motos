@@ -57,6 +57,9 @@
   .button {
     @apply hover:scale-[1.01] duration-150 cursor-pointer
   }
+  .list {
+    @apply hover:scale-x-[1.005] duration-150 cursor-pointer
+  }
 
   .title {
     @apply text-[32px] font-bold

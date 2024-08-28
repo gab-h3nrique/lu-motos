@@ -29,7 +29,7 @@ function Page() {
 
           <p className="description text-color-1">Gerencie seu estoque de produtos</p>
 
-          <Button onClick={() => router.push('/auth/estoque/produtos')} className='mt-3 ml-auto'>Acessar</Button>
+          <Button onClick={() => router.push('/auth/estoque/produtos')} className='mt-3 ml-auto text-color-2'>Acessar</Button>
 
         </div>
 
@@ -39,7 +39,7 @@ function Page() {
 
           <p className="description text-color-1">Adicione uma marca para os produtos</p>
 
-          <Button onClick={() => router.push('/auth/estoque/marcas')} className='mt-3 ml-auto'>Acessar</Button>
+          <Button onClick={() => router.push('/auth/estoque/marcas')} className='mt-3 ml-auto text-color-2'>Acessar</Button>
 
         </div>
 

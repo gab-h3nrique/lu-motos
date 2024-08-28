@@ -6,5 +6,8 @@ export interface ProductType {
     type?: string,
     stock: number,
     value: number,
+
+    updatedAt?: string,
+    createdAt?: string,
     
 }

@@ -1,4 +1,5 @@
 import prisma from "@/databases/prisma";
+import { ProductModel } from "@/models/productModel";
 import { UserModel } from "@/models/userModel";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
@@ -26,17 +27,29 @@ import jwt from 'jsonwebtoken';
 
 export async function GET(request: Request) {
 
-    const url = new URL(request.url)
+    try {
 
-    const page = Number(url.searchParams.get('page') || 0)
-    const limit = Number(url.searchParams.get('limit') || 0)
-    const input = url.searchParams.get('input')
-    const startDate = url.searchParams.get('startDate')
-    const endDate = url.searchParams.get('endDate')
+        const url = new URL(request.url)
+    
+        const page = Number(url.searchParams.get('page') || 0)
+        const limit = Number(url.searchParams.get('limit') || 0)
+        const input = url.searchParams.get('input') || ''
+        const startDate = url.searchParams.get('startDate') || ''
+        const endDate = url.searchParams.get('endDate') || ''
+    
+        const index = (page - 1) * limit
+    
+        const { products, total } = await ProductModel.paginated(index, limit, input, startDate, endDate)
+    
+        return new Response( JSON.stringify( { success: true, products, total } ) , { status: 200 });
 
-    console.log('req: ', page, limit, input, startDate, endDate)
 
-    return new Response( JSON.stringify( { message: 'hello', success: false, products: [] } ) , { status: 200 });
+    } catch(error:any) {
+
+        return new Response( JSON.stringify( { success: false, message: error.message } ) , { status: 500 });
+        
+    }
+
 
 }
 

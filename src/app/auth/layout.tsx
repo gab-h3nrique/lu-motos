@@ -21,11 +21,11 @@ export default function layout({children}: Props) {
 
                 <Header/>
 
-                <section className={'flex w-full h-full'}>
+                <section className={'flex w-full h-full overflow-hidden'}>
 
                     <Aside/>
 
-                    <main className='p-4 flex w-full h-full'>
+                    <main className='p-4 flex w-full h-full overflow-auto'>
 
                         {children}
 

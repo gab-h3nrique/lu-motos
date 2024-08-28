@@ -67,3 +67,13 @@ export function Label(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
     )
 
 }
+
+const Text = {
+    Title,
+    Subtitle,
+    Paragraph,
+    Description,
+    Label
+}
+
+export default Text
