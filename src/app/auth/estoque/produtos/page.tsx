@@ -86,7 +86,7 @@ function Page() {
       <section className='mt-3 w-full h-full flex flex-col gap-4'>
 
         <div className='gap-4 flex w-full justify-end'>
-          <Input type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-white mt-[.15rem] w-5 h-5'/>}/>
+          <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
           <Button className='bg-primary text-background-2'>
             <Svg.Plus className='w-5 h-5 fill-background-2'/>
             Novo produto

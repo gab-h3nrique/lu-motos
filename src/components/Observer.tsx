@@ -1,3 +1,5 @@
+'use client'
+
 import React, { memo, useEffect, useRef, useState } from 'react'
 
 interface Props {

@@ -25,7 +25,7 @@ function UserHeader(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
             </article>
 
             <article className='flex w-9 h-9 rounded-full bg-color-2'>
-                <Svg.User className='w-6 h-6 m-auto fill-bg-2'/>    
+                <Svg.User className='w-6 h-6 m-auto fill-background-2'/>    
             </article>
 
         </section>

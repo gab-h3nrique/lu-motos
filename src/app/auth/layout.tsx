@@ -1,5 +1,6 @@
 import Aside from '@/components/Aside'
 import Header from '@/components/Header'
+import Tab from '@/components/Tab'
 import { AppProvider } from '@/contexts/AppContext'
 import { UserProvider } from '@/contexts/UserContext'
 import React from 'react'
@@ -32,6 +33,8 @@ export default function layout({children}: Props) {
                     </main>
 
                 </section>
+
+                <Tab/>
 
             </section>
 
