@@ -25,7 +25,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* dark */
-    /* --primary: rgba(249, 115, 22, 1);
+    --primary: rgba(249, 115, 22, 1);
     --primary-opacity: rgba(249, 115, 22, 0.1);
   
     --background-1: rgba(0, 0, 0, 1);
@@ -35,7 +35,7 @@
     --color-2: rgba(226, 232, 240, 1);
     --color-3: rgba(148, 163, 184, 0.72);
   
-    --border: rgba(241, 245, 249, 0.24); */
+    --border: rgba(241, 245, 249, 0.24);
 
   }
 }

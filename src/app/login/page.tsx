@@ -89,7 +89,7 @@ function Page() {
 
           <Button onClick={login} className='flex gap-2 justify-center items-center w-full bg-primary'>
             <Svg.Spinner className={`w-5 h-5 ${!loading ? 'hidden' : ''}`}/>
-            <Paragraph>{ loading ? 'Entrando...' : 'Entrar'}</Paragraph>
+            <Description>{ loading ? 'Entrando...' : 'Entrar'}</Description>
           </Button>
 
         </section>

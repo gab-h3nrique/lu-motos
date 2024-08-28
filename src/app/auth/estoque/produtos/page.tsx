@@ -74,7 +74,7 @@ function Page() {
 
   return (
 
-    <div className='gap-1 w-full h-full flex flex-col'>
+    <div className='gap-1 w-full h-fit flex flex-col'>
 
       <Subtitle className='font-semibold'>Produtos</Subtitle>
 
@@ -87,22 +87,23 @@ function Page() {
 
         <div className='gap-4 flex w-full justify-end'>
           <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
-          <Button className='bg-primary text-background-2'>
+          <Button className='bg-primary overflow-hidden'>
             <Svg.Plus className='w-5 h-5 fill-background-2'/>
-            Novo produto
+            <Description className='font-semibold text-background-2 truncate'>Novo produto</Description>
           </Button>
         </div>
 
+
         <Table className='w-full'>
-          <Tbody className='w-full'>
+          <Tbody className='w-full h-fit'>
             <Tr>
               <Th className='text-start font-semibold max-w-36'>Código</Th>
               <Th className='text-start font-semibold'>Produto</Th>
-              <Th className='text-start font-semibold max-w-32'>Tipo</Th>
-              <Th className='text-start font-semibold max-w-32'>Quantidade</Th>
-              <Th className='text-start font-semibold max-w-36'>Valor</Th>
-              <Th className='text-start font-semibold max-w-32'>Modificado</Th>
-              <Th className='text-start font-semibold max-w-32'>Criado</Th>
+              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Tipo</Th>
+              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Quantidade</Th>
+              <Th className='text-start font-semibold max-w-36 hidden md:flex'>Valor</Th>
+              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Modificado</Th>
+              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Criado</Th>
             </Tr>
 
             { productArray.map((product, i)=> (
@@ -110,11 +111,11 @@ function Page() {
               <Tr key={`id-${i}`} className='list'>
                 <Td className='max-w-36'>{ product.id }</Td>
                 <Td>{ product.name }</Td>
-                <Td className='max-w-32'>{ product.type }</Td>
-                <Td className='max-w-32'>{ product.stock }</Td>
-                <Td className='max-w-36'>R$ { Format.money(product.value) }</Td>
-                <Td className='max-w-32' title={Format.date(product.updatedAt)}>{ Format.stringDate(product.updatedAt) }</Td>
-                <Td className='max-w-32' title={Format.date(product.createdAt)}>{ Format.stringDate(product.createdAt) }</Td>
+                <Td className='max-w-32 hidden md:flex'>{ product.type }</Td>
+                <Td className='max-w-32 hidden md:flex'>{ product.stock }</Td>
+                <Td className='max-w-36 hidden md:flex'>R$ { Format.money(product.value) }</Td>
+                <Td className='max-w-32 hidden md:flex' title={Format.date(product.updatedAt)}>{ Format.stringDate(product.updatedAt) }</Td>
+                <Td className='max-w-32 hidden md:flex' title={Format.date(product.createdAt)}>{ Format.stringDate(product.createdAt) }</Td>
               </Tr>
 
             ))}
