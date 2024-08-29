@@ -2,7 +2,7 @@
 
 import Cookie from "@/providers/cookie";
 import { UserType } from "@/types/userType";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import jwt from 'jsonwebtoken';
 
 interface UserContextType {
@@ -31,13 +31,21 @@ export const UserProvider = ({ children }:any) => {
 
     async function load() {// get again user from localStorage
 
-        const token = await Cookie.get(' auth') as string
+        const token = await Cookie.get('auth') as string
         
-        // if(typeof window !== "undefined" && (!user || !user.id) ) setUser(jwt.decode(token) as UserType)
+        if(!user || !user.id) setUser(jwt.decode(token) as UserType)
             
     }
 
-    load()
+    useEffect(()=> {
+
+        if(typeof window !== "undefined") {
+
+            load()
+
+        }
+
+    },[])
 
     return (
         <UserContext.Provider value={{ user, setUser, load }}>

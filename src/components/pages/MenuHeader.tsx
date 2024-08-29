@@ -7,7 +7,7 @@ function MenuHeader(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 
     const { className , ...rest } = props
 
-    console.log('heheheheh')
+    console.log('redering header......')
 
     return (
 

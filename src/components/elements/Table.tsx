@@ -43,7 +43,7 @@ export const Td = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   return (
 
-    <td className={`p-2 w-full bg-background-1 text-color-2 truncate ${className}`} {...rest}>
+    <td className={`p-2 w-full bg-background-2 text-color-2 truncate ${className}`} {...rest}>
       {children}
     </td>
 
@@ -56,7 +56,7 @@ export const Th = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   return (
 
-    <th className={`p-2 w-full bg-background-1 text-color-2 truncate ${className}`} {...rest}>
+    <th className={`p-2 w-full bg-background-2 text-color-2 truncate ${className}`} {...rest}>
       {children}
     </th>
 

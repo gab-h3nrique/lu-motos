@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import Button from './elements/Button'
 import Svg from './icons/Svg'
 import { Description, Label } from './texts/Texts'
@@ -18,12 +18,25 @@ function Aside() {
 
   async function push(page: Pages) {
 
-    router.push(`/auth/${page}`)
-    
     setPage(page)
 
+    router.push(`/auth/${page}`)
+    
   }
 
+
+  useEffect(()=> {
+
+    if (typeof window !== "undefined") {
+
+      const routers = window.location.pathname.replace('/auth/', '') as Pages || '' as Pages
+
+      setPage(routers)
+
+    }
+
+
+  }, [])
 
   return (
 

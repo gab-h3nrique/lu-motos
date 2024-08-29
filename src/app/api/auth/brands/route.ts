@@ -1,9 +1,5 @@
-import prisma from "@/databases/prisma";
-import { ProductModel } from "@/models/productModel";
-import { UserModel } from "@/models/userModel";
-import { ProductType } from "@/types/productType";
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken';
+import { BrandModel } from "@/models/brandModel";
+import { BrandType } from "@/types/brandType";
 
 // 200 OK
 // 201 Created
@@ -35,22 +31,20 @@ export async function GET(request: Request) {
         const page = Number(url.searchParams.get('page') || 0)
         const limit = Number(url.searchParams.get('limit') || 0)
         const input = url.searchParams.get('input') || ''
-        const startDate = url.searchParams.get('startDate') || ''
-        const endDate = url.searchParams.get('endDate') || ''
 
         if(!page || limit) {
 
-            const products = await ProductModel.get(input)
+            const brands = await BrandModel.get(input)
 
-            return new Response( JSON.stringify( { success: true, products  } ) , { status: 200 });
+            return new Response( JSON.stringify( { success: true, brands  } ) , { status: 200 });
 
         }
     
         const index = (page - 1) * limit
     
-        const { products, total } = await ProductModel.paginated(index, limit, input, startDate, endDate)
+        const { brands, total } = await BrandModel.paginated(index, limit, input)
     
-        return new Response( JSON.stringify( { success: true, products, total } ) , { status: 200 });
+        return new Response( JSON.stringify( { success: true, brands, total } ) , { status: 200 });
 
 
     } catch(error:any) {
@@ -70,11 +64,11 @@ export async function POST(request: Request) {
 
         if(!req.name || !req.stock) return new Response( JSON.stringify( { success: false, message: 'missing parameters' } ) , { status: 401 });
 
-        const formated = <ProductType>{ ...req }
+        const formated = <BrandType>{ ...req }
 
-        const product = await ProductModel.upsert(formated)
+        const brand = await BrandModel.upsert(formated)
 
-        return new Response( JSON.stringify( { success: true, product } ) , { status: 201 });
+        return new Response( JSON.stringify( { success: true, brand } ) , { status: 201 });
 
     } catch(error:any) {
 
@@ -92,9 +86,9 @@ export async function DELETE(request: Request) {
 
         if(!id) return new Response( JSON.stringify( { success: false, message: 'id is required!' } ) , { status: 406 });
 
-        const product = await ProductModel.delete(Number(id))
+        const brand = await BrandModel.delete(Number(id))
 
-        return new Response( JSON.stringify( { success: true, product } ) , { status: 200 });
+        return new Response( JSON.stringify( { success: true, brand } ) , { status: 200 });
 
     } catch(error:any) {
 

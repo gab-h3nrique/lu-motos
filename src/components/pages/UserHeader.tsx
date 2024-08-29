@@ -19,8 +19,8 @@ function UserHeader(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 
             <article className='flex flex-col'>
 
-                <Description>{user && user.name} Larissa Arielly</Description>
-                <Label className='text-color-3'>{user && user.role} Administrador</Label>
+                <Description>{user && user.name}</Description>
+                <Label className='text-color-3'>{user && user.role == 100 ? 'Administrador' : 'técnico' }</Label>
 
             </article>
 

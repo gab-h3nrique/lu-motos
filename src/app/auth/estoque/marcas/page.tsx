@@ -8,6 +8,7 @@ import Observer from '@/components/Observer'
 import { Description, Label, Subtitle } from '@/components/texts/Texts'
 import { useNotification } from '@/hooks/useNotaification'
 import Api from '@/providers/http'
+import { BrandType } from '@/types/brandType'
 import { ProductType } from '@/types/productType'
 import Format from '@/utils/format'
 import { useRouter } from 'next/navigation'
@@ -21,7 +22,7 @@ function Page() {
 
   const [ filter, setFilter ] = useState({ input: '', date: '', })
 
-  const [ productArray, setProductArray ] = useState<ProductType[]>([])
+  const [ brandArray, setBrandArray ] = useState<BrandType[]>([])
 
   const [ total, setTotal ] = useState(0)
 
@@ -31,28 +32,26 @@ function Page() {
 
   const [ loading, setLoading ] = useState(false)
 
-  async function getPaginatedProduct(pageParam: number, search?: boolean) {
+  async function getPaginated(pageParam: number, search?: boolean) {
 
     try {
       
       setLoading(true)
 
-      const { products, total, success, message, ...rest } = await Api.get('/api/auth/products', { page: pageParam, limit: limit, ...filter })
+      const { brands, total, success, message, ...rest } = await Api.get('/api/auth/brands', { page: pageParam, limit: limit, ...filter })
 
-      if(!success) return notification.push({ type: 'error', title: 'Atenção', description: 'Nenhum produto foi encontrado.' })
-
-      console.log('pageParam: ', pageParam)
+      if(!success) return notification.push({ type: 'error', title: 'Atenção', description: 'Nenhuma dado foi encontrado.' })
 
       setPage(pageParam)
 
       setTotal(total || 0)
 
-      if(search) setProductArray(products)
-      else setProductArray(prev => ([ ...prev, ...products ]))
+      if(search) setBrandArray(brands)
+      else setBrandArray(prev => ([ ...prev, ...brands ]))
 
     } catch (error) {
 
-      return notification.push({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os produtos.' })
+      return notification.push({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os dados.' })
       
     } finally {
 
@@ -67,7 +66,7 @@ function Page() {
 
   useEffect(()=> {
 
-    getPaginatedProduct(1)
+    getPaginated(1)
 
   }, [])
 
@@ -76,7 +75,7 @@ function Page() {
 
     <div className='gap-1 w-full h-fit flex flex-col'>
 
-      <Subtitle className='font-semibold'>Produtos</Subtitle>
+      <Subtitle className='font-semibold'>Marcas</Subtitle>
 
       <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
         <Svg.Angle className='w-4 h-4 fill-color-1 -rotate-90 mt-[.25rem]'/>
@@ -98,24 +97,14 @@ function Page() {
           <Tbody className='w-full h-fit'>
             <Tr>
               <Th className='text-start font-semibold max-w-36'>Código</Th>
-              <Th className='text-start font-semibold'>Produto</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Tipo</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Quantidade</Th>
-              <Th className='text-start font-semibold max-w-36 hidden md:flex'>Valor</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Modificado</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Criado</Th>
+              <Th className='text-start font-semibold'>Marca</Th>
             </Tr>
 
-            { productArray.map((product, i)=> (
+            { brandArray.map((item, i)=> (
 
               <Tr key={`id-${i}`} className='list'>
-                <Td className='max-w-36'>{ product.id }</Td>
-                <Td>{ product.name }</Td>
-                <Td className='max-w-32 hidden md:flex'>{ product.type }</Td>
-                <Td className='max-w-32 hidden md:flex'>{ product.stock }</Td>
-                <Td className='max-w-36 hidden md:flex'>R$ { Format.money(product.value) }</Td>
-                <Td className='max-w-32 hidden md:flex' title={Format.date(product.updatedAt)}>{ Format.stringDate(product.updatedAt) }</Td>
-                <Td className='max-w-32 hidden md:flex' title={Format.date(product.createdAt)}>{ Format.stringDate(product.createdAt) }</Td>
+                <Td className='max-w-36'>{ item.id }</Td>
+                <Td>{ item.name }</Td>
               </Tr>
 
             ))}
@@ -123,8 +112,8 @@ function Page() {
           </Tbody>
         </Table>
 
-        <Button onClick={() => !loading && getPaginatedProduct((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${productArray.length >= total ? 'hidden' : ''}`}>
-          <Observer isIntersecting={()=> !loading && getPaginatedProduct((page + 1))}/>
+        <Button onClick={() => !loading && getPaginated((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${brandArray.length >= total ? 'hidden' : ''}`}>
+          <Observer isIntersecting={()=> !loading && getPaginated((page + 1))}/>
           <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
         </Button>
 
