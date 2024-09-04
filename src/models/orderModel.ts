@@ -23,6 +23,7 @@ function model() {
                         { client:{ email: { contains: input }} }, 
                     ],
                 },
+                include: { user: true, client: true, orderProducts: true },
 
             })
 
@@ -41,6 +42,7 @@ function model() {
                         { client:{ email: { contains: input }} }, 
                     ],
                 },
+                include: { user: true, client: true, orderProducts: true },
                 orderBy: { id: 'desc'}
 
             }) || []
@@ -95,7 +97,7 @@ function model() {
                 },
                 skip: index,
                 take: limit,
-                include: { user: true, client: true, products: true },
+                include: { user: true, client: true, orderProducts: true },
                 orderBy: { id: 'desc'}
 
             }) || []

@@ -40,7 +40,7 @@ function Page() {
 
       const { brands, total, success, message, ...rest } = await Api.get('/api/auth/brands', { page: pageParam, limit: limit, ...filter })
 
-      if(!success) return notification.push({ type: 'error', title: 'Atenção', description: 'Nenhuma dado foi encontrado.' })
+      if(!success) return notification({ type: 'error', title: 'Atenção', description: 'Nenhuma dado foi encontrado.' })
 
       setPage(pageParam)
 
@@ -51,7 +51,7 @@ function Page() {
 
     } catch (error) {
 
-      return notification.push({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os dados.' })
+      return notification({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os dados.' })
       
     } finally {
 

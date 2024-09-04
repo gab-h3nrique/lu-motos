@@ -25,7 +25,7 @@ function Page() {
 
         <div className=" border bg-background-2 flex flex-col p-4 gap-2 w-80 rounded-2xl">
 
-          <Subtitle className="">Produtos</Subtitle>
+          <Subtitle className="">Produtos / Serviços</Subtitle>
 
           <p className="description text-color-1">Gerencie seu estoque de produtos</p>
 

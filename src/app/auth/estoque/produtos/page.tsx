@@ -37,9 +37,9 @@ function Page() {
       
       setLoading(true)
 
-      const { products, total, success, message, ...rest } = await Api.get('/api/auth/products', { page: pageParam, limit: limit, ...filter })
+      const { data, total, success, message, ...rest } = await Api.get('/api/auth/products', { page: pageParam, limit: limit, ...filter })
 
-      if(!success) return notification.push({ type: 'error', title: 'Atenção', description: 'Nenhum produto foi encontrado.' })
+      if(!success) return notification({ type: 'error', title: 'Atenção', description: 'Nenhum dado foi encontrado.' })
 
       console.log('pageParam: ', pageParam)
 
@@ -47,12 +47,12 @@ function Page() {
 
       setTotal(total || 0)
 
-      if(search) setProductArray(products)
-      else setProductArray(prev => ([ ...prev, ...products ]))
+      if(search) setProductArray(data)
+      else setProductArray(prev => ([ ...prev, ...data ]))
 
     } catch (error) {
 
-      return notification.push({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os produtos.' })
+      return notification({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os dados.' })
       
     } finally {
 

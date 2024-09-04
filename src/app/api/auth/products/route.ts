@@ -40,17 +40,17 @@ export async function GET(request: Request) {
 
         if(!page || !limit) {
 
-            const products = await ProductModel.get(input)
+            const data = await ProductModel.get(input)
 
-            return new Response( JSON.stringify( { success: true, products  } ) , { status: 200 });
+            return new Response( JSON.stringify( { success: true, data  } ) , { status: 200 });
 
         }
     
         const index = (page - 1) * limit
     
-        const { products, total } = await ProductModel.paginated(index, limit, input, startDate, endDate)
+        const { data, total } = await ProductModel.paginated(index, limit, input, startDate, endDate)
     
-        return new Response( JSON.stringify( { success: true, products, total } ) , { status: 200 });
+        return new Response( JSON.stringify( { success: true, data, total } ) , { status: 200 });
 
 
     } catch(error:any) {

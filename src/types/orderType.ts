@@ -1,7 +1,8 @@
 import { empty } from "@prisma/client/runtime/library";
-import { ClientType } from "./clientType";
+import { ClientType, EMPTY_CLIENT } from "./clientType";
 import { ProductType } from "./productType";
 import { UserType } from "./userType";
+import { OrderProductsType } from "./orderProductsType";
 
 export interface OrderType {
 
@@ -27,7 +28,7 @@ export interface OrderType {
 
     status: string,
 
-    products?: ProductType[],
+    orderProducts?: OrderProductsType[],
 
     updatedAt?: string,
     createdAt?: string,
@@ -37,7 +38,7 @@ export const EMPTY_ORDER = {
 
     id: undefined,
 
-    client: undefined,
+    client: EMPTY_CLIENT,
     clientId: undefined,
 
     user: undefined,
@@ -57,7 +58,7 @@ export const EMPTY_ORDER = {
 
     status: 'em andamento',
 
-    products: undefined,
+    orderProducts: [],
 
     updatedAt: undefined,
     createdAt: undefined,

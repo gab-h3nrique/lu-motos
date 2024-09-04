@@ -11,3 +11,19 @@ export interface ClientType {
     updatedAt?: string,
     createdAt?: string, 
 }
+
+export const EMPTY_CLIENT = {
+
+    id: undefined,
+
+    name: '',
+    email: undefined,
+    document: undefined,
+    number: undefined,
+    info: undefined,
+
+
+    updatedAt: undefined,
+    createdAt: undefined,
+
+}

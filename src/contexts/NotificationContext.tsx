@@ -10,6 +10,8 @@ interface ContextType {
 
 }
 
+type Push = (object: NotificationItemType) => void
+
 export interface NotificationItemType {
 
     _id?: number,
@@ -21,6 +23,7 @@ export interface NotificationItemType {
 }
 
 export const NotificationContext = createContext<ContextType | undefined>(undefined);
+export const DispatchNotificationContext = createContext<Push | undefined>(undefined);
 
 export const NotificationProvider = ({ children }:any) => {
 
@@ -58,19 +61,21 @@ export const NotificationProvider = ({ children }:any) => {
     return (
 
         <NotificationContext.Provider value={contextValue}>
+            <DispatchNotificationContext.Provider value={push}>
 
-            <section className='z-[999] w-full h-fit flex absolute pointer-events-none overflow-hidden'>
+                <section className='z-[999] w-full h-fit flex absolute pointer-events-none overflow-hidden'>
 
-                <div className='relative flex flex-col ml-auto p-3 gap-3 '>
+                    <div className='relative flex flex-col ml-auto p-3 gap-3 '>
 
-                    { list?.map(item =>  <NotificationItem key={item._id} notification={item} onClose={()=> removeItem(item._id || -1)} />) }
+                        { list?.map(item =>  <NotificationItem key={item._id} notification={item} onClose={()=> removeItem(item._id || -1)} />) }
 
-                </div>
+                    </div>
 
-            </section>
+                </section>
 
-            {children}
+                {children}
 
+            </DispatchNotificationContext.Provider>
         </NotificationContext.Provider>
     )
 }

@@ -3,7 +3,7 @@
 import React, { memo, RefObject, useRef } from 'react'
 
 interface Props {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => any,
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => any,
   value: any,
   type?: string,
   icon?: any
@@ -12,19 +12,9 @@ interface Props {
   [x: string]: any;
 }
 
-function Input(props: Props) {
+function Textarea(props: Props) {
 
   const { onChange, value, icon, className, ...rest } = props
-
-  const initialValue = useRef<any>(value)
-
-  function change(e: React.ChangeEvent<HTMLInputElement>) {
-
-
-    console.log('hehe')
-
-
-  }
 
   return (
 
@@ -34,11 +24,11 @@ function Input(props: Props) {
 
     <label className={`flex gap-2 description border bg-background-2 text-color-1 font-semibold py-[.438rem] px-4 rounded-lg hover:scale-[1.01] duration-150 ${className}`} {...rest}>
       {icon}
-      <input onChange={onChange} value={value as any || ''} className='description text-color-1 bg-transparent outline-0 w-full h-full' {...rest}/>
+      <textarea onChange={onChange} value={value as any  || ''} className='description text-color-1 bg-transparent outline-0 w-full h-full' {...rest}/>
     </label>
 
   )
 }
 
-export default memo(Input)
+export default memo(Textarea)
 

@@ -49,7 +49,7 @@ function Page() {
 
       const { data, total, success, message, ...rest } = await Api.get('/api/auth/orders', { page: pageParam, limit: limit, ...filter })
 
-      if(!success) return notification.push({ type: 'error', title: 'Atenção', description: 'Nenhum dado foi encontrado.' })
+      if(!success) return notification({ type: 'error', title: 'Atenção', description: 'Nenhum dado foi encontrado.' })
 
       console.log('pageParam: ', pageParam)
 
@@ -62,7 +62,7 @@ function Page() {
 
     } catch (error) {
 
-      return notification.push({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os produtos.' })
+      return notification({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os produtos.' })
       
     } finally {
 
@@ -136,24 +136,24 @@ function Page() {
             { ordersArray.map((item, i)=> (
 
               <Tr key={`id-${i}`} className='list' onClick={() => openOrderModal(item)}>
-                <Th className='text-start font-semibold max-w-40'>{ item.model }</Th>
-                <Th className='text-start font-semibold'>{ item.client?.name }</Th>
-                <Th className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.products?.length }</Th>
-                <Th className='text-start font-semibold max-w-36 hidden md:flex'>100,00</Th>
-                <Th className='text-start font-semibold max-w-32 hidden md:flex'>{ item.status }</Th>
-                <Th className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Th>
+                <Td className='text-start font-semibold max-w-40'>{ item.model }</Td>
+                <Td className='text-start font-semibold'>{ item.client?.name }</Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.products?.length }</Td>
+                <Td className='text-start font-semibold max-w-36 hidden md:flex'>100,00</Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item.status }</Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Td>
               </Tr>
 
             ))}
 
             { loading &&
               <Tr className='list'>
-                <Th className='text-start font-semibold max-w-40'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Th>
-                <Th className='text-start font-semibold'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Th>
-                <Th className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Th>
-                <Th className='text-start font-semibold max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Th>
-                <Th className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Th>
-                <Th className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Th>
+                <Td className='text-start font-semibold max-w-40'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='text-start font-semibold'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='text-start font-semibold max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
               </Tr>
             }
 

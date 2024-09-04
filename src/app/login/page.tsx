@@ -34,7 +34,7 @@ function Page() {
 
     try {
 
-      if(!userLogin.email && !userLogin.password) return notification.push({ type: 'warning', title: 'Atenção', description: 'preencha os campos obrigatórios.', time: 3000 })
+      if(!userLogin.email && !userLogin.password) return notification({ type: 'warning', title: 'Atenção', description: 'preencha os campos obrigatórios.', time: 3000 })
 
       setLoading(true)
 
@@ -46,7 +46,7 @@ function Page() {
 
       await Cookie.set('auth', token, (stayConnected ? 360 : 1))
     
-      notification.push({ type: 'success', title: 'Sucesso!', description: 'Logado com sucesso!.', time: 1000 })
+      notification({ type: 'success', title: 'Sucesso!', description: 'Logado com sucesso!.', time: 1000 })
 
       setTimeout(()=> router.push('/auth'), 200)
 

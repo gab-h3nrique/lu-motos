@@ -31,7 +31,7 @@ function model() {
 
         get: async(input?: string) => {
 
-            const products = await prisma.products.findMany({
+            const data = await prisma.products.findMany({
 
                 where: {
                     OR: [
@@ -44,7 +44,7 @@ function model() {
 
             }) || []
 
-            return products
+            return data
 
         },
 
@@ -79,7 +79,7 @@ function model() {
 
         paginated: async(index: number, limit: number, input: string = '', startDate: any = '', endDate: any = '') => {
 
-            const products = await prisma.products.findMany({
+            const data = await prisma.products.findMany({
 
                 where: {
                     OR: [
@@ -112,7 +112,7 @@ function model() {
                 },
             }) || 0
 
-            return { products, total }
+            return { data, total }
 
         }
 

@@ -74,7 +74,7 @@ model Orders {
 
   status              String @default("aguardando peça") // aberto / em andamento / finalizado / fechado
 
-  products            OrderProducts[] @relation("order")
+  orderProducts       OrderProducts[] @relation("order")
 
   createdAt           DateTime? @default(now())
   updatedAt           DateTime? @updatedAt
@@ -119,12 +119,10 @@ model OrderProducts {
   order                 Orders @relation("order", fields: [orderId], references: [id], onDelete: Cascade)
   orderId               Int
 
-  status                String @default("em andamento") // em andamento / aguardando / aguardando peça / sem solução / finalizado
+  status                String @default("em andamento") // aguardando / aguardando peça / em andamento / sem solução / finalizado
 
   warranty              Boolean @default(false)
-  warrantyDescription   String?
-
-  deliveryConfirmation  Boolean @default(false)
+  description           String?
 
   value                 Float? @default(0.00)
 

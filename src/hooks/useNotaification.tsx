@@ -1,10 +1,10 @@
-import { NotificationContext } from "@/contexts/NotificationContext";
+import { NotificationContext, DispatchNotificationContext } from "@/contexts/NotificationContext";
 import { useContext } from "react";
 
 
 export const useNotification = () => {
 
-    const context = useContext(NotificationContext);
+    const context = useContext(DispatchNotificationContext);
 
     if(!context) throw new Error('context should be used inside its provider');
 
