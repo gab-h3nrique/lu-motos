@@ -12,7 +12,7 @@ import Api from '@/providers/http'
 import { OrderType } from '@/types/orderType'
 import { ProductType } from '@/types/productType'
 import Format from '@/utils/format'
-import { useRouter, usePathname, useParams, useSearchParams } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import React, { memo, use, useEffect, useState } from 'react'
 
 
@@ -20,8 +20,6 @@ function Page() {
 
   const router = useRouter()
   const pathname = usePathname()
-  const params = useParams()
-  const searchParams = useSearchParams()
 
   const notification = useNotification()
 
