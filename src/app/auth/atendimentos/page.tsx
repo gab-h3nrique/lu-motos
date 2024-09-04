@@ -138,7 +138,7 @@ function Page() {
               <Tr key={`id-${i}`} className='list' onClick={() => openOrderModal(item)}>
                 <Td className='text-start font-semibold max-w-40'>{ item.model }</Td>
                 <Td className='text-start font-semibold'>{ item.client?.name }</Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.products?.length }</Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.orderProducts?.length || 0 }</Td>
                 <Td className='text-start font-semibold max-w-36 hidden md:flex'>100,00</Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item.status }</Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Td>
