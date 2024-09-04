@@ -1,5 +1,10 @@
-import { BrandModel } from "@/models/brandModel";
-import { BrandType } from "@/types/brandType";
+import prisma from "@/databases/prisma";
+import { OrderModel } from "@/models/orderModel";
+import { UserModel } from "@/models/userModel";
+import { OrderType } from "@/types/orderType";
+import { ProductType } from "@/types/productType";
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken';
 
 // 200 OK
 // 201 Created
@@ -31,20 +36,22 @@ export async function GET(request: Request) {
         const page = Number(url.searchParams.get('page') || 0)
         const limit = Number(url.searchParams.get('limit') || 0)
         const input = url.searchParams.get('input') || ''
+        const startDate = url.searchParams.get('startDate') || ''
+        const endDate = url.searchParams.get('endDate') || ''
 
         if(!page || !limit) {
 
-            const brands = await BrandModel.get(input)
+            const data = await OrderModel.get(input)
 
-            return new Response( JSON.stringify( { success: true, brands  } ) , { status: 200 });
+            return new Response( JSON.stringify( { success: true, data  } ) , { status: 200 });
 
         }
     
         const index = (page - 1) * limit
     
-        const { brands, total } = await BrandModel.paginated(index, limit, input)
+        const { data, total } = await OrderModel.paginated(index, limit, input, startDate, endDate)
     
-        return new Response( JSON.stringify( { success: true, brands, total } ) , { status: 200 });
+        return new Response( JSON.stringify( { success: true, data, total } ) , { status: 200 });
 
 
     } catch(error:any) {
@@ -62,13 +69,15 @@ export async function POST(request: Request) {
 
         const req = await request.json()
 
-        if(!req.name || !req.stock) return new Response( JSON.stringify( { success: false, message: 'missing parameters' } ) , { status: 401 });
+        if(!req.model) return new Response( JSON.stringify( { success: false, message: 'missing parameters' } ) , { status: 401 });
 
-        const formated = <BrandType>{ ...req }
+        const formated = <OrderType>{ ...req }
 
-        const brand = await BrandModel.upsert(formated)
+        // const data = await OrderModel.upsert(formated)
 
-        return new Response( JSON.stringify( { success: true, brand } ) , { status: 201 });
+        const data = ''
+
+        return new Response( JSON.stringify( { success: true, data } ) , { status: 201 });
 
     } catch(error:any) {
 
@@ -86,11 +95,11 @@ export async function DELETE(request: Request) {
 
         if(!id) return new Response( JSON.stringify( { success: false, message: 'id is required!' } ) , { status: 406 });
 
-        const brand = await BrandModel.delete(Number(id))
+        const data = await OrderModel.delete(Number(id))
 
-        return new Response( JSON.stringify( { success: true, brand } ) , { status: 200 });
+        return new Response( JSON.stringify( { success: true, data } ) , { status: 200 });
 
-    } catch(error:any) {
+    } catch(error: any) {
 
         return new Response( JSON.stringify( { success: false, message: error.message } ) , { status: 500 });
         

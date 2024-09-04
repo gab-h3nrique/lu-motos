@@ -55,13 +55,14 @@ model Clients {
 model Orders {
   id                  Int      @id @default(autoincrement())
 
-  client              Clients? @relation(fields: [clientId], references: [id])
+  client              Clients? @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId            Int?
 
-  user                Users? @relation("OrdersUser", fields: [userId], references: [id])
+  user                Users? @relation("OrdersUser", fields: [userId], references: [id], onDelete: Cascade)
   userId              String?
 
   model               String
+  year                Int?
   plateNumber         String?
 
   clientObservation   String?
@@ -73,7 +74,7 @@ model Orders {
 
   status              String @default("aguardando peça") // aberto / em andamento / finalizado / fechado
 
-  products            OrderProducts[] @relation("OrderProducts")
+  products            OrderProducts[] @relation("order")
 
   createdAt           DateTime? @default(now())
   updatedAt           DateTime? @updatedAt
@@ -93,6 +94,8 @@ model Products {
   stock           Int @default(1)
   value           Float? @default(0.00)
 
+  orders            OrderProducts[] @relation("product")
+
   createdAt       DateTime? @default(now())
   updatedAt       DateTime? @updatedAt
 
@@ -110,10 +113,13 @@ model Brands {
 model OrderProducts {
   id                    Int @id @default(autoincrement())
 
-  name                  String
-  status                String @default("aguardando peça") // em andamento / aguardando / aguardando peça / sem solução / finalizado
-  brand                 String?
-  type                  String?
+  product               Products @relation("product", fields: [productId], references: [id], onDelete: Cascade)
+  productId             Int
+
+  order                 Orders @relation("order", fields: [orderId], references: [id], onDelete: Cascade)
+  orderId               Int
+
+  status                String @default("em andamento") // em andamento / aguardando / aguardando peça / sem solução / finalizado
 
   warranty              Boolean @default(false)
   warrantyDescription   String?
@@ -122,13 +128,11 @@ model OrderProducts {
 
   value                 Float? @default(0.00)
 
-  order                 Orders @relation("OrderProducts", fields: [orderId], references: [id], onDelete: Cascade)
-  orderId               Int
-
   createdAt             DateTime? @default(now())
   updatedAt             DateTime? @updatedAt
 
   @@index([orderId])
+  @@index([productId])
   @@map("orderProducts")
 }
 

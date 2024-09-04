@@ -109,6 +109,13 @@ function Page() {
 
             ))}
 
+            { loading &&
+              <Tr className='list'>
+                <Td className='max-w-36'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className=''><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+              </Tr>
+            }
+
           </Tbody>
         </Table>
 

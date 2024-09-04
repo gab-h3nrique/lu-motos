@@ -38,7 +38,7 @@ export async function GET(request: Request) {
         const startDate = url.searchParams.get('startDate') || ''
         const endDate = url.searchParams.get('endDate') || ''
 
-        if(!page || limit) {
+        if(!page || !limit) {
 
             const products = await ProductModel.get(input)
 

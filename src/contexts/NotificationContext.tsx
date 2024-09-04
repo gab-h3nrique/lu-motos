@@ -11,10 +11,13 @@ interface ContextType {
 }
 
 export interface NotificationItemType {
+
+    _id?: number,
     type: 'alert' | 'success' | 'warning' | 'error',
     title: string,
     description: string,
     time?: number
+
 }
 
 export const NotificationContext = createContext<ContextType | undefined>(undefined);
@@ -23,21 +26,23 @@ export const NotificationProvider = ({ children }:any) => {
 
     const [ list, setList ] = useState<NotificationItemType[]>([])
 
-    const removeItem = useCallback((index: number)=> {
+    const removeItem = useCallback((id: number)=> {
 
-        setList((prev) => (prev.filter((e, i)=> i !== index)))
+        setList((prev) => (prev.filter(e=> e._id !== id)))
 
     }, [])
 
     const push = useCallback((item: NotificationItemType)=> {
 
-        const TIMER = item.time && item.time > 700 ? item.time : 700
+        const TIMER = item.time && item.time >= 2500 ? item.time : 2500
+
+        const ID = parseInt(String(Math.random() * 9543))
 
         setList((prev) => {
 
-            setTimeout(()=> removeItem(prev.length), TIMER + 700)
+            setTimeout(()=> removeItem(ID), TIMER)
 
-            return [...prev, item]
+            return [...prev, {...item, _id: ID, time: TIMER }]
 
         })
 
@@ -54,11 +59,11 @@ export const NotificationProvider = ({ children }:any) => {
 
         <NotificationContext.Provider value={contextValue}>
 
-            <section className='w-full h-fit flex absolute z-50 pointer-events-none overflow-hidden'>
+            <section className='z-[999] w-full h-fit flex absolute pointer-events-none overflow-hidden'>
 
-                <div className='relative flex flex-col ml-auto p-3 gap-3'>
+                <div className='relative flex flex-col ml-auto p-3 gap-3 '>
 
-                    { list?.map((item, i) =>  <NotificationItem key={i} notification={item} onClose={()=> removeItem(i)} />) }
+                    { list?.map(item =>  <NotificationItem key={item._id} notification={item} onClose={()=> removeItem(item._id || -1)} />) }
 
                 </div>
 

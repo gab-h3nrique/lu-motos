@@ -27,7 +27,7 @@ function Page() {
 
   const [ page, setPage ] = useState(1)
 
-  const [ limit, setLimit ] = useState(5)
+  const [ limit, setLimit ] = useState(2)
 
   const [ loading, setLoading ] = useState(false)
 
@@ -120,8 +120,22 @@ function Page() {
 
             ))}
 
+            { loading &&
+              <Tr className='list'>
+                {/* <Td className='w-full flex gap-2 justify-center'><Svg.Spinner className='w-5 h-5 fill-background-2'/></Td> */}
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+              </Tr>
+            }
+
           </Tbody>
         </Table>
+
 
         <Button onClick={() => !loading && getPaginatedProduct((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${productArray.length >= total ? 'hidden' : ''}`}>
           <Observer isIntersecting={()=> !loading && getPaginatedProduct((page + 1))}/>

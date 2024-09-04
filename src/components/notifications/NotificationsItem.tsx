@@ -4,7 +4,7 @@ import { NotificationItemType } from "@/contexts/NotificationContext";
 
 interface Props {
     notification: NotificationItemType;
-    onClose?: () => void
+    onClose?: (e: any) => void
 }
 
 function NotificationItem({ notification, onClose }: Props) {
@@ -30,9 +30,9 @@ function NotificationItem({ notification, onClose }: Props) {
 
     return (
 
-        <article className={`flex w-80 h-24 relative duration-300 ${closeTransition ? 'overflow-hidden h-0 opacity-0' : ''}`}>
-            <div className={`${ startTransition ? '-translate-x-96' : ''} absolute left-96 ease-in-out duration-700 bg-backgorund-2 border rounded-lg w-full h-full p-3 gap-3 flex shadow-sm pointer-events-auto`}>
-    
+        <article key={notification._id} id={String(notification._id)} className={`z-[999] flex w-80 relative duration-300 ${closeTransition ? 'h-0 opacity-0 overflow-hidden' : 'h-24'}`}>
+            <div className={`${ startTransition ? '-translate-x-96' : ''} z-[999] absolute left-96 opacity-100 ease-in-out duration-700 bg-background-2 border rounded-lg w-full h-full p-3 gap-3 flex shadow-sm pointer-events-auto`}>
+
                 <section className="pt-1">
                     {
                         notification.type == 'success' ?  <Svg.Check className="h-5 w-5 fill-green-600"/> 
@@ -48,10 +48,10 @@ function NotificationItem({ notification, onClose }: Props) {
                     <p className='font-medium text-color-1 opacity-90 text-sm'>{notification.description}</p>
                 </section>
     
-                <section onClick={onClose} className="ml-auto">
+                <section onClick={()=> setCloseTransition(true)} className="ml-auto">
                     <Svg.Close className="fill-color-1 w-4 h-4 cursor-pointer"/>
                 </section>
-                
+
             </div>
         </article>
 
