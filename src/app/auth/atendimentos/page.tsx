@@ -2,6 +2,7 @@
 
 import Button from '@/components/elements/Button'
 import Input from '@/components/elements/Input'
+import Status from '@/components/elements/Status'
 import { Table, Td, Tr, Th, Tbody } from '@/components/elements/Table'
 import Svg from '@/components/icons/Svg'
 import OrderModal from '@/components/modals/order/OrderModal'
@@ -138,7 +139,7 @@ function Page() {
                 <Td className='text-start font-semibold'>{ item.client?.name }</Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.orderProducts?.length || 0 }</Td>
                 <Td className='text-start font-semibold max-w-36 hidden md:flex'>100,00</Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item.status }</Td>
+                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Status value={item.status}/></Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Td>
               </Tr>
 

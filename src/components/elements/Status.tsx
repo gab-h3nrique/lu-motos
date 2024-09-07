@@ -15,46 +15,37 @@ function Status(props: Props) {
   function titleCase(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-
-  if(value == 'aguardando') return (
-
-    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-yellow-50/10 rounded-md ${rest.className}`} {...rest}>
-      <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-      <Label className='text-yellow-500'>{ titleCase(value) }</Label>
-    </div>
-
-  )
   
   if(value == 'em andamento') return (
 
     <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-blue-50/10 rounded-md ${rest.className}`} {...rest}>
       <span className='h-2 w-2 rounded-full bg-blue-500'></span>
-      <Label className='text-blue-500'>{ titleCase(value) }</Label>
+      <Label className='text-blue-500 truncate'>{ titleCase(value) }</Label>
     </div>
 
   )
 
   if(value == 'aguardando peça') return (
 
-    <div className={`flex gap-1 w-fit p-1 items-center bg-slate-50/10 ${rest.className}`} {...rest}>
-      <span className='h-2 w-2 rounded-full bg-slate-500'></span>
-      <Label className='text-slate-500'>{ titleCase(value) }</Label>
+    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-yellow-50/10 rounded-md ${rest.className}`} {...rest}>
+      <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
+      <Label className='text-yellow-500 truncate'>{ titleCase(value) }</Label>
     </div>
 
   )
 
   if(value == 'sem solução') return (
 
-    <div className={`flex gap-1 w-fit p-1 items-center bg-red-50/10 ${rest.className}`} {...rest}>
+    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-red-50/10 rounded-md ${rest.className}`} {...rest}>
       <span className='h-2 w-2 rounded-full bg-red-500'></span>
-      <Label className='text-red-500'>{ titleCase(value) }</Label>
+      <Label className='text-red-500 truncate'>{ titleCase(value) }</Label>
     </div>
 
   )
 
   if(value == 'finalizado') return (
 
-    <div className={`flex gap-1 w-fit p-1 items-center bg-green-50/10 ${rest.className}`} {...rest}>
+    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-green-50/10 rounded-md ${rest.className}`} {...rest}>
       <span className='h-2 w-2 rounded-full bg-green-500'></span>
       <Label className='text-green-500'>{ titleCase(value) }</Label>
     </div>

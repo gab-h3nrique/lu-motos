@@ -37,8 +37,8 @@ function factory() {
 
         money: (value: any) => {
 
-            const match : any = /(\d+)(\.\d+)?/.exec(String(value))
-            return match[1].replace(/\d(?=(\d{3})+$)/g, "$&,") + (match[2] ? match[2].replace(".", ",") : ",00");
+            // const match : any = /(\d+)(\.\d+)?/.exec(String(value))
+            // return match[1].replace(/\d(?=(\d{3})+$)/g, "$&,") + (match[2] ? match[2].replace(".", ",") : ",00");
 
             let v = value.toString().replace(/\D/g,'');
             v = (v/100).toFixed(2) + '';
