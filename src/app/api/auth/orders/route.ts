@@ -67,7 +67,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
 
-    try {
+    // try {
 
         const req = await request.json()
 
@@ -85,11 +85,11 @@ export async function POST(request: Request) {
 
         return new Response( JSON.stringify( { success: true, data } ) , { status: 201 });
 
-    } catch(error:any) {
+    // } catch(error:any) {
 
-        return new Response( JSON.stringify( { success: false, message: error.message } ) , { status: 500 });
+    //     return new Response( JSON.stringify( { success: false, message: error.message } ) , { status: 500 });
         
-    }
+    // }
 
 }
 

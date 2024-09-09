@@ -20,9 +20,9 @@ function model() {
                 where: {
                     OR: [
                         { id: input }, 
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { model:{ contains: String(input) } }, 
+                        { client:{ name: { contains: String(input) }} }, 
+                        { client:{ email: { contains: String(input) }} }, 
                     ],
                 },
                 include: { user: true, client: true, orderProducts: true },

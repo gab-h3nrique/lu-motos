@@ -17,7 +17,7 @@ function model() {
 
             if(!itens || !itens.length || !itens[0].orderId) return null
 
-            const newList = itens.map(e => ({ ...e, createdAt: undefined, updatedAt: new Date() })) 
+            const newList = itens.map(e => ({ ...e, createdAt: e.createdAt || undefined, updatedAt: e.createdAt || undefined })) 
 
             await prisma.orderProducts.deleteMany({
                 where: {

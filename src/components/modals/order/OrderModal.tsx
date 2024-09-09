@@ -28,7 +28,6 @@ interface Props {
 
 function OrderModal({ isOpen, order, onClose }: Props) {
 
-    console.log('redering modal....')
 
     const notification = useNotification()
 
@@ -218,7 +217,8 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
             notification({ type: 'success', title: 'Sucesso', description: 'Os dados foram salvos com sucesso.' })
       
-            onClose({ updated: data })
+            if(editedOrder.id) return onClose({ updated: data })
+            onClose({ created: data })
 
       
         } catch (error) {
@@ -235,11 +235,14 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
     useEffect(() => {
 
+        console.log('data: ', order)
+
         setEditedOrder(order || EMPTY_ORDER)
     
         return () => {
 
-            console.log('closing modal...')
+            setEditedOrder(EMPTY_ORDER)
+            setEditedOrderProducts(EMPTY_ORDER_PRODUCTS)
 
         }
 
