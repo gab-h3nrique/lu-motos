@@ -36,7 +36,7 @@ function Page() {
 
   const [ loading, setLoading ] = useState(false)
 
-  const [ selectedOrder, setSelectedorder ] = useState<OrderType | null>(null)
+  const [ selectedOrder, setSelectOrder ] = useState<OrderType | null>(null)
 
   const [ modal, setModal ] = useState(false)
 
@@ -77,31 +77,32 @@ function Page() {
 
     window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
 
-    setSelectedorder(item)
+    setSelectOrder(item)
     setModal(true)
 
   }
+
   function closeOrderModal(data?: any) {
 
     const newUrl = `${pathname}`;
 
     window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
 
-    setSelectedorder(null)
+    setSelectOrder(null)
     setModal(false)
 
     if(!data) return
 
-    const { created, deleted } = data
+    const { updated, deleted } = data
 
     if(deleted && deleted.id) setOrdersArray(prev => prev.filter(e => e.id !== deleted.id) )
 
-    if(created && created.id) {
+    if(updated && updated.id) {
 
-      const index = ordersArray.findIndex(e => e.id == created.id)
+      const index = ordersArray.findIndex(e => e.id == updated.id)
 
-      if(index !== -1) setOrdersArray(prev => (prev.map(e => e.id === created.id ? created : e )))
-      else setOrdersArray(prev => [ created, ...prev ])
+      if(index !== -1) setOrdersArray(prev => (prev.map(e => e.id === updated.id ? updated : e )))
+      else setOrdersArray(prev => [ updated, ...prev ])
 
     }
 

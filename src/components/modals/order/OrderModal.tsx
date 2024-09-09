@@ -76,7 +76,6 @@ function OrderModal({ isOpen, order, onClose }: Props) {
     function addProduct() {
 
         const newOrderProducts: OrderProductsType = {
-
             ...EMPTY_ORDER_PRODUCTS,
             id: undefined,
 
@@ -86,18 +85,16 @@ function OrderModal({ isOpen, order, onClose }: Props) {
             edit: true,
         }
 
-        const newList = editedOrder.orderProducts
+        const newList = editedOrder.orderProducts || []
 
-        newList?.push(newOrderProducts)
+        newList?.push({...newOrderProducts})
 
         setEditedOrder(prev => (
             {
                 ...prev,
-                orderProducts: newList
+                orderProducts: [...newList]
             }
         ))
-
-        setEditedOrderProducts(newOrderProducts)
 
     }
 
@@ -105,18 +102,19 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
         const newList = editedOrder.orderProducts ? editedOrder.orderProducts.map((e, i) => i == index ? item : {...e, edit: false}) : []
 
-        setEditedOrder(prev => ({ ...prev, orderProducts: newList } ))
+        setEditedOrder(prev => ({ ...prev, orderProducts: [...newList] } ))
 
         setEditedOrderProducts(item)
 
     }
+
     function saveEditProduct(index: number) {
 
         const newList = editedOrder.orderProducts ? editedOrder.orderProducts.map((e, i) => i == index ? { ...editedOrderProducts, edit: false} : e) : []
 
         setEditedOrder(prev => ({ ...prev, orderProducts: newList} ))
 
-        // setEditedOrderProducts(EMPTY_ORDER_PRODUCTS)
+        setEditedOrderProducts(EMPTY_ORDER_PRODUCTS)
 
     }
 
@@ -183,6 +181,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
         }
 
     }
+    
     async function save() {
 
         try {
@@ -217,10 +216,9 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
             notification({ type: 'success', title: 'Sucesso', description: 'Os dados foram salvos com sucesso.' })
       
-            if(editedOrder.id) return onClose({ updated: data })
-            onClose({ created: data })
+            onClose({ updated: data })
 
-      
+    
         } catch (error) {
       
             return notification({ type: 'error', title: 'Ops!', description: 'Houve um erro ao buscar os produtos.' })
@@ -235,11 +233,9 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
     useEffect(() => {
 
-        console.log('data: ', order)
+        if(order) setEditedOrder({...order, orderProducts: order.orderProducts ? [ ...order.orderProducts] : []})
 
-        setEditedOrder(order || EMPTY_ORDER)
-    
-        return () => {
+        if(!isOpen) {
 
             setEditedOrder(EMPTY_ORDER)
             setEditedOrderProducts(EMPTY_ORDER_PRODUCTS)
@@ -259,16 +255,9 @@ function OrderModal({ isOpen, order, onClose }: Props) {
         <section className={`bg-background-1 flex w-full h-full absolute ${isOpen ? 'fles' : 'hidden'}`}>
             <div className='py-12 gap-1 w-full h-full flex flex-col items-center relative'>
 
-                {/* <Subtitle className='mr-auto font-semibold'>{ order?.id ? `Atendimento ${order.id}` : 'Novo atendimento' }</Subtitle>
-
-                <Description onClick={()=> onClose()} className='mr-auto flex gap-1 cursor-pointer w-fit'>
-                <Svg.Angle className='w-4 h-4 fill-color-1 -rotate-90 mt-[.25rem]'/>
-                    voltar
-                </Description> */}
-
                 <div className="flex flex-col gap-12 w-full max-w-[45rem] pb-10">
 
-                    <section className='flex flex-col'>
+                    <section onClick={() => console.log(order, editedOrder)} className='flex flex-col'>
 
                         <Paragraph>
                             Cliente
@@ -373,7 +362,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                             <Description className='mb-1'>Produtos / serviços</Description>
                             <Table className='w-full'>
                                 <Tbody className='w-full h-fit'>
-                                    { editedOrder?.orderProducts?.length ? editedOrder?.orderProducts.map((item, i)=> (
+                                    { editedOrder?.orderProducts?.length ? editedOrder.orderProducts.map((item, i)=> (
 
                                         <Tr key={`id-${i}`} className={`list`}>
 
@@ -448,7 +437,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
                                                 <div className='col-span-2 flex gap-3'>
                                                     <Button onClick={() => removeProduct(i)} className='text-color-2'>Remover</Button>
-                                                    <Button onClick={() => item.productId !== -1 ? editProduct({...item, edit: false}, i) : removeProduct(i)} className={`ml-auto text-color-2 `}>Cancelar</Button>
+                                                    <Button onClick={() => editedOrderProducts.productId !== -1 ? editProduct({...item, edit: false}, i) : removeProduct(i)} className={`ml-auto text-color-2 `}>Cancelar</Button>
                                                     <Button onClick={() => editedOrderProducts.productId !== -1 ? saveEditProduct(i) : notification({ type: 'warning', title: 'Atenção', description: 'Serviço / produto precisa ser preenchido!'  })} className='flex justify-center bg-primary text-color-2 min-w-[82px]'>Salvar</Button>
                                                 </div>
 
@@ -481,24 +470,6 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                     </section>
 
                     <section className='grid grid-cols-4'>
-
-                        {/* <div className='col-span-4 flex flex-col'>
-
-                            <Description className='mb-1'>Status</Description>
-                            <div className='mb-4 flex items-center gap-3'>
-                                <Checkbox onChange={(e) => setEditedOrder(prev => ({...prev, status: 'em andamento'}) )} value={editedOrder.status == 'em andamento'}/>
-                                <Status value={'em andamento'}/>
-                            </div>
-                            <div className='mb-4 flex items-center gap-3'>
-                                <Checkbox onChange={(e) => setEditedOrder(prev => ({...prev, status: 'sem solução'}) )} value={editedOrder.status == 'sem solução'}/>
-                                <Status value={'sem solução'}/>
-                            </div>
-                            <div className='flex items-center gap-3'>
-                                <Checkbox onChange={(e) => setEditedOrder(prev => ({...prev, status: 'finalizado'}) )} value={editedOrder.status == 'finalizado'}/>
-                                <Status value={'finalizado'}/>
-                            </div>
-
-                        </div> */}
 
                         <div onClick={() => setEditedOrder(prev => ({...prev, status: 'em andamento'}) )} className={`button col-span-4 p-4 gap-3 flex border rounded-t-xl ${ editedOrder.status == 'em andamento' ? 'border-yellow-500' : '' }`}>
 
