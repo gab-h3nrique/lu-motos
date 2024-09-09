@@ -22,7 +22,7 @@ interface Props {
 
     isOpen: boolean;
     order?: OrderType
-    onClose: (item?: any) => any
+    onClose: (data?: any) => any
 
 }
 
@@ -35,6 +35,8 @@ function OrderModal({ isOpen, order, onClose }: Props) {
     const [ loading, setLoading ] = useState(false)
 
     const [ saveLoading, setSaveLoading ] = useState(false)
+
+    const [ removeLoading, setRemoveLoading ] = useState(false)
 
     const [ clientInfo, setClientInfo ] = useState(false)
 
@@ -104,7 +106,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
         const newList = editedOrder.orderProducts ? editedOrder.orderProducts.map((e, i) => i == index ? item : {...e, edit: false}) : []
 
-        setEditedOrder(prev => ({ ...prev, orderProducts: newList} ))
+        setEditedOrder(prev => ({ ...prev, orderProducts: newList } ))
 
         setEditedOrderProducts(item)
 
@@ -135,6 +137,53 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
     }
 
+    function totalCalc() {
+
+        if(!editedOrder.orderProducts || !editedOrder.orderProducts?.length) return '0,00'
+        
+        let total = 0
+
+        editedOrder?.orderProducts.forEach(e => {
+
+            if(e.status != 'finalizado') return
+
+            total += e.value
+
+        })
+        
+        return total
+
+    }
+
+    async function remove() {
+
+        try {
+
+            
+            if(saveLoading) return
+
+            setRemoveLoading(true)
+
+            const { data, total, success, message, ...rest } = await Api.delete('/api/auth/orders', { id: editedOrder.id })
+        
+            if(!success) return notification({ type: 'warning', title: 'Atenção', description: 'Nenhum dado foi excluido.' })
+
+            notification({ type: 'success', title: 'Sucesso', description: 'Os dados foram excluidos com sucesso.' })
+      
+            onClose({ deleted: editedOrder })
+
+      
+        } catch (error) {
+      
+            return notification({ type: 'error', title: 'Ops!', description: 'Houve um erro ao excluir os produtos.' })
+            
+        } finally {
+      
+            setRemoveLoading(false)
+      
+        }
+
+    }
     async function save() {
 
         try {
@@ -144,13 +193,32 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
             setSaveLoading(true)
 
-            const { data, total, success, message, ...rest } = await Api.post('/api/auth/orders', editedOrder)
+            const formatedOrderProducts = editedOrder.orderProducts ? editedOrder.orderProducts.map((e: any) => {
+
+                delete e.edit
+
+                return {
+                    ...e, 
+                    value: Number(String(e.value).replace(',', '.'))
+                }
+
+            }) : []
+
+            const formatedOrder = {
+
+                ...editedOrder,
+                orderProducts: formatedOrderProducts,
+                value: Number(String(totalCalc()).replace(',', '.'))
+
+            }
+
+            const { data, total, success, message, ...rest } = await Api.post('/api/auth/orders', formatedOrder)
         
             if(!success) return notification({ type: 'warning', title: 'Atenção', description: 'Nenhum dado foi encontrado.' })
 
             notification({ type: 'success', title: 'Sucesso', description: 'Os dados foram salvos com sucesso.' })
       
-            onClose(editedOrder)
+            onClose({ updated: data })
 
       
         } catch (error) {
@@ -378,7 +446,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                                                 <div className='col-span-2 flex gap-3'>
                                                     <Button onClick={() => removeProduct(i)} className='text-color-2'>Remover</Button>
                                                     <Button onClick={() => item.productId !== -1 ? editProduct({...item, edit: false}, i) : removeProduct(i)} className={`ml-auto text-color-2 `}>Cancelar</Button>
-                                                    <Button onClick={() => item.productId !== -1 ? saveEditProduct(i) : notification({ type: 'warning', title: 'Atenção', description: 'Serviço / produto precisa ser preenchido!'  })} className='flex justify-center bg-primary text-color-2 min-w-[82px]'>Salvar</Button>
+                                                    <Button onClick={() => editedOrderProducts.productId !== -1 ? saveEditProduct(i) : notification({ type: 'warning', title: 'Atenção', description: 'Serviço / produto precisa ser preenchido!'  })} className='flex justify-center bg-primary text-color-2 min-w-[82px]'>Salvar</Button>
                                                 </div>
 
                                             </Td>
@@ -456,8 +524,17 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                             <section className='flex flex-col gap-1 w-full'>
                                 <Description className='truncate'>Finalizado</Description>
                                 <Label className={`text-color-3 ${ editedOrder.status == 'finalizado' && 'hidden' }`}>O atendimento atualmente está sendo feito</Label>
-                                <div className={`w-full bg-blue-500 overflow-hidden duration-300 ${ editedOrder.status == 'finalizado' ? 'h-[10rem]' : 'h-0' }`}>
-                                    aaaaaaa
+                                <div className={`w-full flex flex-col overflow-hidden duration-300 ${ editedOrder.status == 'finalizado' ? 'h-[5rem]' : 'h-0' }`}>
+                                    
+                                    <section className='flex justify-between opacity-50'>
+                                        <Description className='truncate'>Subtotal:</Description>
+                                        <Paragraph className='truncate'>R$ { editedOrder.orderProducts?.length && Format.money( editedOrder?.orderProducts.reduce((a, b) => a + b.value, 0) ) }</Paragraph>
+                                    </section>
+                                    <section className='mt-auto flex justify-between'>
+                                        <Paragraph className='truncate'>Total:</Paragraph>
+                                        <Subtitle className='truncate'>R$ { Format.money(totalCalc()) }</Subtitle>
+                                    </section>
+                                    
                                 </div>
                             </section>
 
@@ -469,6 +546,10 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
                     <section className='flex gap-4'>
 
+                        <Button onClick={remove} className={`justify-center text-color-2 min-w-[82px] ${ editedOrder.id && editedOrder.id != -1 ? 'flex' : 'hidden' }`}>
+                            <Svg.Spinner className={`w-5 h-5 fill-background-2 opacity-[.4] ${!removeLoading && 'hidden'}`}/>
+                            { !removeLoading ? 'Excluir' : '' }
+                        </Button>
                         <Button onClick={()=> onClose()} className='ml-auto text-color-2'>Cancelar</Button>
                         <Button onClick={save} className='flex justify-center bg-primary text-color-2 min-w-[82px]'>
                             <Svg.Spinner className={`w-5 h-5 fill-background-2 opacity-[.4] ${!saveLoading && 'hidden'}`}/>

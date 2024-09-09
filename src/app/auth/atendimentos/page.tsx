@@ -32,7 +32,7 @@ function Page() {
 
   const [ page, setPage ] = useState(1)
 
-  const [ limit, setLimit ] = useState(2)
+  const [ limit, setLimit ] = useState(25)
 
   const [ loading, setLoading ] = useState(false)
 
@@ -81,7 +81,7 @@ function Page() {
     setModal(true)
 
   }
-  function closeOrderModal(item: OrderType | null) {
+  function closeOrderModal(data?: any) {
 
     const newUrl = `${pathname}`;
 
@@ -89,6 +89,21 @@ function Page() {
 
     setSelectedorder(null)
     setModal(false)
+
+    if(!data) return
+
+    const { created, deleted } = data
+
+    if(deleted && deleted.id) setOrdersArray(prev => prev.filter(e => e.id !== deleted.id) )
+
+    if(created && created.id) {
+
+      const index = ordersArray.findIndex(e => e.id == created.id)
+
+      if(index !== -1) setOrdersArray(prev => (prev.map(e => e.id === created.id ? created : e )))
+      else setOrdersArray(prev => [ created, ...prev ])
+
+    }
 
   }
 
@@ -138,7 +153,7 @@ function Page() {
                 <Td className='text-start font-semibold max-w-40'>{ item.model }</Td>
                 <Td className='text-start font-semibold'>{ item.client?.name }</Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.orderProducts?.length || 0 }</Td>
-                <Td className='text-start font-semibold max-w-36 hidden md:flex'>100,00</Td>
+                <Td className='text-start font-semibold max-w-36 hidden md:flex'>R$ { Format.money(item.value) }</Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'><Status value={item.status}/></Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Td>
               </Tr>
@@ -167,7 +182,7 @@ function Page() {
 
       </section>
 
-      <OrderModal isOpen={modal} onClose={(e)=> closeOrderModal(e)} order={selectedOrder ? selectedOrder : undefined}/>
+      <OrderModal isOpen={modal} onClose={data => closeOrderModal(data)} order={selectedOrder ? selectedOrder : undefined}/>
 
     </div>
 

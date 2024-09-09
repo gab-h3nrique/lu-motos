@@ -33,8 +33,8 @@ export const EMPTY_ORDER_PRODUCTS = {
 
     value: 0,
 
-    updatedAt: '',
-    createdAt: '',
+    updatedAt: undefined,
+    createdAt: undefined,
 
 }
 

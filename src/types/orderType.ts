@@ -12,7 +12,7 @@ export interface OrderType {
     clientId?: number,
 
     user?: ClientType,
-    userId?: number,
+    userId?: string,
 
 
     model: string,
@@ -27,6 +27,7 @@ export interface OrderType {
     warrantyDescription?: string,
 
     status: string,
+    value:  number,
 
     orderProducts?: OrderProductsType[],
 
@@ -57,6 +58,7 @@ export const EMPTY_ORDER = {
     warrantyDescription: undefined,
 
     status: 'em andamento',
+    value: 0,
 
     orderProducts: [],
 

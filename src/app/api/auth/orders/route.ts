@@ -1,5 +1,7 @@
 import prisma from "@/databases/prisma";
+import { ClientModel } from "@/models/clientModel";
 import { OrderModel } from "@/models/orderModel";
+import { OrderProductModel } from "@/models/OrderProductModel";
 import { UserModel } from "@/models/userModel";
 import { OrderType } from "@/types/orderType";
 import { ProductType } from "@/types/productType";
@@ -71,11 +73,15 @@ export async function POST(request: Request) {
 
         if(!req.model) return new Response( JSON.stringify( { success: false, message: 'missing parameters' } ) , { status: 401 });
 
-        const formated = <OrderType>{ ...req }
+        const { user, client, orderProducts, ...rest } = <OrderType>req
 
-        // const data = await OrderModel.upsert(formated)
+        const createdClient = client ? await ClientModel.upsert(client) : null
 
-        const data = ''
+        const created = await OrderModel.upsert({...rest, clientId: createdClient && createdClient.id ? createdClient.id : undefined})
+
+        if(created.id && orderProducts && orderProducts.length) OrderProductModel.upsertMany(orderProducts?.map(e => ({ ...e, orderId: created.id })))
+
+        const data = await OrderModel.find(created.id)
 
         return new Response( JSON.stringify( { success: true, data } ) , { status: 201 });
 

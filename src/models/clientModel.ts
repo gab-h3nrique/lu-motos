@@ -1,9 +1,8 @@
 import prisma from "@/databases/prisma"
+import { ClientType } from "@/types/clientType"
 import { OrderType } from "@/types/orderType"
 import { ProductType } from "@/types/productType"
 import { UserType } from "@/types/userType"
-import { ClientModel } from "./clientModel"
-import { OrderProductModel } from "./OrderProductModel"
 
 function model() {
 
@@ -11,21 +10,22 @@ function model() {
 
     return {
 
-        query: prisma.orders,
+        query: prisma.clients,
 
         find: async(input: any) => {
 
-            const data = await prisma.orders.findFirst({
+            const data = await prisma.clients.findFirst({
 
                 where: {
                     OR: [
                         { id: input }, 
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { name:{ contains: input } }, 
+                        { email:{ contains: input } }, 
+                        { document:{ contains: input } }, 
+                        { number:{ contains: input } }
                     ],
                 },
-                include: { user: true, client: true, orderProducts: true },
+                include: { orders: true },
 
             })
 
@@ -35,16 +35,17 @@ function model() {
 
         get: async(input?: string) => {
 
-            const data = await prisma.orders.findMany({
+            const data = await prisma.clients.findMany({
 
                 where: {
                     OR: [
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { name:{ contains: input } }, 
+                        { email:{ contains: input } }, 
+                        { document:{ contains: input } }, 
+                        { number:{ contains: input } }
                     ],
                 },
-                include: { user: true, client: true, orderProducts: true },
+                include: { orders: true },
                 orderBy: { id: 'desc'}
 
             }) || []
@@ -53,26 +54,24 @@ function model() {
 
         },
 
-        upsert: async(item: OrderType) => {
+        upsert: async(item: ClientType) => {
 
-            const { user, client, orderProducts, ...rest } = item
-
-            const data = await prisma.orders.upsert({
+            const created = await prisma.clients.upsert({
                 where: {
                     id: item.id || -1
                 },
-                update: rest,
-                create: rest,
-                include: { user: true, client: true, orderProducts: true }
+                update: item,
+                create: item
+
             })
 
-            return data
+            return created
             
         },
 
         delete: async(id: number) => {
 
-            const data = await prisma.orders.delete({
+            const data = await prisma.clients.delete({
 
                 where: {
                     id: id
@@ -86,13 +85,14 @@ function model() {
 
         paginated: async(index: number, limit: number, input: any = null, startDate: any = '', endDate: any = '') => {
 
-            const data = await prisma.orders.findMany({
+            const data = await prisma.clients.findMany({
 
                 where: {
                     OR: [
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { name:{ contains: input } }, 
+                        { email:{ contains: input } }, 
+                        { document:{ contains: input } }, 
+                        { number:{ contains: input } }
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,
@@ -101,17 +101,18 @@ function model() {
                 },
                 skip: index,
                 take: limit,
-                include: { user: true, client: true, orderProducts: true },
+                include: { orders: true },
                 orderBy: { id: 'desc'}
 
             }) || []
 
-            const total = await prisma.orders.count({
+            const total = await prisma.clients.count({
                 where: {
                     OR: [
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { name:{ contains: input } }, 
+                        { email:{ contains: input } }, 
+                        { document:{ contains: input } }, 
+                        { number:{ contains: input } }
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,
@@ -128,4 +129,4 @@ function model() {
 
 }
 
-export const OrderModel = model();
+export const ClientModel = model();
