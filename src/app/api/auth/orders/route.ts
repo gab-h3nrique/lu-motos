@@ -67,7 +67,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
 
-    // try {
+    try {
 
         const req = await request.json()
 
@@ -79,17 +79,17 @@ export async function POST(request: Request) {
 
         const created = await OrderModel.upsert({...rest, clientId: createdClient && createdClient.id ? createdClient.id : undefined})
 
-        if(created.id && orderProducts && orderProducts.length) OrderProductModel.upsertMany(orderProducts?.map(e => ({ ...e, orderId: created.id })))
+        if(created.id && orderProducts && orderProducts.length) await OrderProductModel.upsertMany(orderProducts?.map(e => ({ ...e, orderId: created.id })))
 
         const data = await OrderModel.find(created.id)
 
         return new Response( JSON.stringify( { success: true, data } ) , { status: 201 });
 
-    // } catch(error:any) {
+    } catch(error:any) {
 
-    //     return new Response( JSON.stringify( { success: false, message: error.message } ) , { status: 500 });
+        return new Response( JSON.stringify( { success: false, message: error.message } ) , { status: 500 });
         
-    // }
+    }
 
 }
 

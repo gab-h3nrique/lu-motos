@@ -136,19 +136,9 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
     function totalCalc() {
 
-        if(!editedOrder.orderProducts || !editedOrder.orderProducts?.length) return '0,00'
+        if(!editedOrder.orderProducts || !editedOrder.orderProducts?.length) return '0.00'
         
-        let total = 0
-
-        editedOrder?.orderProducts.forEach(e => {
-
-            if(e.status != 'finalizado') return
-
-            total += e.value
-
-        })
-        
-        return total
+        return editedOrder?.orderProducts.filter(a => a.status == 'finalizado').reduce((a, b) => a + b.value, 0)
 
     }
 
@@ -206,7 +196,6 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
                 ...editedOrder,
                 orderProducts: formatedOrderProducts,
-                value: Number(String(totalCalc()).replace(',', '.'))
 
             }
 

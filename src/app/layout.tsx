@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Props) {
         <NotificationProvider>
           <UserProvider>
 
-              {children}
+            {children}
 
           </UserProvider>
         </NotificationProvider>

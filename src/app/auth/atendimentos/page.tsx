@@ -71,6 +71,14 @@ function Page() {
 
   }
 
+  function totalCalc(order: OrderType) {
+
+    if(!order.orderProducts || !order.orderProducts?.length) return '0.00'
+    
+    return order?.orderProducts.filter(a => a.status == 'finalizado').reduce((a, b) => a + b.value, 0)
+
+  }
+
   function openOrderModal(item: OrderType | null) {
 
     const newUrl = `${pathname}?modal=${item?.id || ''}`;
@@ -98,11 +106,13 @@ function Page() {
     if(deleted && deleted.id) setOrdersArray(prev => prev.filter(e => e.id !== deleted.id) )
 
     if(updated && updated.id) {
-
+      
       const index = ordersArray.findIndex(e => e.id == updated.id)
 
-      if(index !== -1) setOrdersArray(prev => (prev.map(e => e.id === updated.id ? updated : e )))
-      else setOrdersArray(prev => [ updated, ...prev ])
+      console.log('updated: ', updated)
+
+      if(index !== -1) setOrdersArray(prev => (prev.map(e => e.id === updated.id ? { ...updated } : e )))
+      else setOrdersArray(prev => [ { ...updated } , ...prev ])
 
     }
 
@@ -154,7 +164,7 @@ function Page() {
                 <Td className='text-start font-semibold max-w-40'>{ item.model }</Td>
                 <Td className='text-start font-semibold'>{ item.client?.name }</Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.orderProducts?.length || 0 }</Td>
-                <Td className='text-start font-semibold max-w-36 hidden md:flex'>R$ { Format.money(item.value) }</Td>
+                <Td className='text-start font-semibold max-w-36 hidden md:flex'>R$ { Format.money(totalCalc(item)) }</Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'><Status value={item.status}/></Td>
                 <Td className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Td>
               </Tr>

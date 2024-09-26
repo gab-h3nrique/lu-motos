@@ -1,8 +1,5 @@
-import Aside from '@/components/Aside'
-import Header from '@/components/Header'
-import { AppProvider } from '@/contexts/AppContext'
-import { UserProvider } from '@/contexts/UserContext'
-import React from 'react'
+import Loading from '@/components/Loading'
+import React, { Suspense } from 'react'
 
 interface Props {
 
@@ -15,7 +12,9 @@ export default function layout({children}: Props) {
 
     return (
 
-        <>{children}</>
+        <Suspense fallback={<Loading/>}>
+            {children}
+        </Suspense>
 
     )
 

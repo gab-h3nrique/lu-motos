@@ -28,7 +28,7 @@ function Page() {
 
   const [ page, setPage ] = useState(1)
 
-  const [ limit, setLimit ] = useState(5)
+  const [ limit, setLimit ] = useState(25)
 
   const [ loading, setLoading ] = useState(false)
 
