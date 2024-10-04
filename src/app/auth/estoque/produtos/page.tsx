@@ -4,18 +4,20 @@ import Button from '@/components/elements/Button'
 import Input from '@/components/elements/Input'
 import { Table, Td, Tr, Th, Tbody } from '@/components/elements/Table'
 import Svg from '@/components/icons/Svg'
+import ProductModal from '@/components/modals/product/ProductModal'
 import Observer from '@/components/Observer'
 import { Description, Label, Subtitle } from '@/components/texts/Texts'
 import { useNotification } from '@/hooks/useNotaification'
 import Api from '@/providers/http'
 import { ProductType } from '@/types/productType'
 import Format from '@/utils/format'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { memo, use, useEffect, useState } from 'react'
 
 function Page() {
 
   const router = useRouter()
+  const pathname = usePathname()
 
   const notification = useNotification()
 
@@ -28,6 +30,10 @@ function Page() {
   const [ page, setPage ] = useState(1)
 
   const [ limit, setLimit ] = useState(25)
+
+  const [ selected, setSelect ] = useState<ProductType | null>(null)
+
+  const [ modal, setModal ] = useState(false)
 
   const [ loading, setLoading ] = useState(false)
 
@@ -62,7 +68,44 @@ function Page() {
 
   }
 
-  // router.
+  function openModal(item: ProductType | null) {
+
+    const newUrl = `${pathname}?modal=${item?.id || ''}`;
+
+    window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
+
+    setSelect(item)
+    setModal(true)
+
+  }
+
+  function closeModal(data?: any) {
+
+    const newUrl = `${pathname}`;
+
+    window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
+
+    setSelect(null)
+    setModal(false)
+
+    if(!data) return
+
+    const { updated, deleted } = data
+
+    if(deleted && deleted.id) setProductArray(prev => prev.filter(e => e.id !== deleted.id) )
+
+    if(updated && updated.id) {
+      
+      const index = productArray.findIndex(e => e.id == updated.id)
+
+      console.log('updated: ', updated)
+
+      if(index !== -1) setProductArray(prev => (prev.map(e => e.id === updated.id ? { ...updated } : e )))
+      else setProductArray(prev => [ { ...updated } , ...prev ])
+
+    }
+
+  }
 
 
   useEffect(()=> {
@@ -79,7 +122,7 @@ function Page() {
       <Subtitle className='font-semibold'>Produtos</Subtitle>
 
       <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
-        <Svg.Angle className='w-4 h-4 fill-color-1 -rotate-90 mt-[.25rem]'/>
+        <Svg.Angle className='w-4 h-4 fill-color-2 dark:fill-color-2-dark -rotate-90 mt-[.25rem]'/>
         voltar
       </Description>
 
@@ -87,8 +130,8 @@ function Page() {
 
         <div className='gap-4 flex w-full justify-end'>
           <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
-          <Button className='bg-primary overflow-hidden text-background-2'>
-            <Svg.Plus className='w-5 h-5 fill-background-2'/>
+          <Button onClick={() => openModal(null)} className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark'>
+            <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
             Novo produto
           </Button>
         </div>
@@ -108,7 +151,7 @@ function Page() {
 
             { productArray.map((product, i)=> (
 
-              <Tr key={`id-${i}`} className='list'>
+              <Tr key={`id-${i}`} className='list' onClick={() => openModal(product)}>
                 <Td className='max-w-36'>{ product.id }</Td>
                 <Td>{ product.name }</Td>
                 <Td className='max-w-32 hidden md:flex'>{ product.type }</Td>
@@ -122,14 +165,14 @@ function Page() {
 
             { loading &&
               <Tr className='list'>
-                {/* <Td className='w-full flex gap-2 justify-center'><Svg.Spinner className='w-5 h-5 fill-background-2'/></Td> */}
-                <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                {/* <Td className='w-full flex gap-2 justify-center'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/></Td> */}
+                <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                <Td><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
               </Tr>
             }
 
@@ -137,12 +180,14 @@ function Page() {
         </Table>
 
 
-        <Button onClick={() => !loading && getPaginatedProduct((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${productArray.length >= total ? 'hidden' : ''}`}>
+        <Button onClick={() => !loading && getPaginatedProduct((page + 1))} className={`w-full flex justify-center border-0 dark:border-0 bg-transparent ${productArray.length >= total ? 'hidden' : ''}`}>
           <Observer isIntersecting={()=> !loading && getPaginatedProduct((page + 1))}/>
           <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
         </Button>
 
       </section>
+
+      <ProductModal isOpen={modal} onClose={data => closeModal(data)} product={selected ? selected : undefined}/>
 
     </div>
 

@@ -5,13 +5,15 @@ import Button from './elements/Button'
 import Svg from './icons/Svg'
 import { version } from './../../package.json'
 import Package from './Package'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Description, Label } from './texts/Texts'
 import ThemeButton from './ThemeButton'
 
 type Pages = '' | 'dashboard' | 'atendimentos' | 'estoque' | 'configuracoes'
 
 function Aside() {
+
+  const pathname = usePathname()
 
   const router = useRouter()
 
@@ -25,17 +27,20 @@ function Aside() {
     
   }
 
+  function selectMenu() {
+
+    if (!window || typeof window == "undefined") return
+
+    const path = window.location.pathname.replace('/auth/', '') as Pages || '' as Pages
+
+    setPage(path)
+
+  }
+
 
   useEffect(()=> {
 
-    if (typeof window !== "undefined") {
-
-      const routers = window.location.pathname.replace('/auth/', '') as Pages || '' as Pages
-
-      setPage(routers)
-
-    }
-
+    selectMenu()
 
   }, [])
 

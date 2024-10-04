@@ -44,14 +44,14 @@ function model() {
 
         },
 
-        upsert: async(brand: BrandType) => {
+        upsert: async(item: BrandType) => {
 
             const created = await prisma.brands.upsert({
                 where: {
-                    id: brand.id
+                    id: item.id || -1
                 },
-                update: brand,
-                create: brand
+                update: item,
+                create: item
 
             })
 
@@ -75,7 +75,7 @@ function model() {
 
         paginated: async(index: number, limit: number, input: string = '') => {
 
-            const brands = await prisma.brands.findMany({
+            const data = await prisma.brands.findMany({
 
                 where: {
                     name:{ contains: input }
@@ -92,7 +92,7 @@ function model() {
                 },
             }) || 0
 
-            return { brands, total }
+            return { data, total }
 
         }
 

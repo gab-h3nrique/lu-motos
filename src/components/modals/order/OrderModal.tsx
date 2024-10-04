@@ -252,7 +252,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                             Cliente
                         </Paragraph>
 
-                        <Description className='text-color-3'>
+                        <Description className='text-color-3 dark:text-color-3-dark'>
                             Informe os dados do cliente
                         </Description>
 
@@ -261,29 +261,29 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                     <section className='grid grid-cols-4 gap-6'>
 
                         <div className={'col-span-4 max-w-[20rem]'}>
-                            <Description className='mb-1 text-color-2'>Nome<span className='ml-1 text-red-500'>*</span></Description>
+                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Nome<span className='ml-1 text-red-500'>*</span></Description>
                             <Input type='text' onChange={(e: any) => setEditedOrder(prev => ({...prev, client: { ...prev.client, name: e.target.value } }))} value={editedOrder?.client?.name}/>
                         </div>
                         <div className={`col-span-4 max-w-[25rem] ${ !clientInfo ? 'hidden' : '' }`}>
-                            <Description className='mb-1 text-color-2'>Email</Description>
+                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Email</Description>
                             <Input type='email' onChange={(e: any) => setEditedOrder((prev: any) => ({...prev, client: { ...prev.client, email: e.target.value } }))} value={editedOrder?.client?.email}/>
                         </div>
                         <div className={`col-span-2 ${ !clientInfo ? 'hidden' : '' }`}>
-                            <Description className='mb-1 text-color-2'>Documento</Description>
+                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Documento</Description>
                             <Input maxLength={18} type='text' onChange={(e: any) => setEditedOrder((prev: any) => ({...prev, client: { ...prev.client, document: Format.brDocument(e.target.value) } }))} value={editedOrder?.client?.document}/>
                         </div>
                         <div className={`col-span-2 ${ !clientInfo ? 'hidden' : '' }`}>
-                            <Description className='mb-1 text-color-2'>Número</Description>
+                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Número</Description>
                             <Input maxLength={15} type='text' onChange={(e: any) => setEditedOrder((prev: any) => ({...prev, client: { ...prev.client, number: Format.phone(e.target.value) } }))} value={editedOrder?.client?.number}/>
                         </div>
                         <div className={`col-span-4 max-w-[25rem] ${ !clientInfo ? 'hidden' : '' }`}>
-                            <Description className='mb-1 text-color-2'>Endereço</Description>
+                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Endereço</Description>
                             <Input type='email' onChange={(e: any) => setEditedOrder((prev: any) => ({...prev, client: { ...prev.client, info: e.target.value } }))} value={editedOrder?.client?.info}/>
                         </div>
 
                         <div className={`col-span-4`}>
                             <Button onClick={() => setClientInfo(!clientInfo)} className='border-0 w-full bg-transparent flex justify-center'>
-                                <Description className='text-color-2'>{ !clientInfo ? 'Mais informações' : 'Menos informações' }</Description>
+                                <Description className='text-color-2 dark:text-color-2-dark'>{ !clientInfo ? 'Mais informações' : 'Menos informações' }</Description>
                             </Button>
                         </div>
 
@@ -297,7 +297,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                             Veículo
                         </Paragraph>
 
-                        <Description className='text-color-3'>
+                        <Description className='text-color-3 dark:text-color-3-dark'>
                             Use essa seção para identificar o veículo.
                         </Description>
 
@@ -324,7 +324,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
                         <div className={`col-span-4`}>
                             <Button onClick={() => setVehicleInfo(!vehicleInfo)} className='border-0 w-full bg-transparent flex justify-center'>
-                                <Description className='text-color-2'>{ !vehicleInfo ? 'Mais informações' : 'Menos informações' }</Description>
+                                <Description className='text-color-2 dark:text-color-2-dark'>{ !vehicleInfo ? 'Mais informações' : 'Menos informações' }</Description>
                             </Button>
                         </div>
 
@@ -338,7 +338,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                             Serviços
                         </Paragraph>
 
-                        <Description className='text-color-3' onClick={() => console.log('order: ', order)}>
+                        <Description className='text-color-3 dark:text-color-3-dark' onClick={() => console.log('order: ', order)}>
                             Preencha os serviços e informações que irão ser realizados no veículo. { order?.orderProducts?.length }
                         </Description>
 
@@ -359,12 +359,12 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
                                                 <section className="col-span-4">
                                                     <Description className='truncate'>{ productArray && productArray.length && productArray.map(e => e.id == item.productId ? e.name : '') }</Description>
-                                                    <Label className='text-color-3'>{ productArray && productArray.length && productArray.map(e => e.id == item.productId ? e.type : '') }</Label>
+                                                    <Label className='text-color-3 dark:text-color-3-dark'>{ productArray && productArray.length && productArray.map(e => e.id == item.productId ? e.type : '') }</Label>
                                                 </section>
 
                                                 <section className="col-span-4 flex flex-col">
                                                     <Status value={item.status}/>
-                                                    <Label className='mt-1 text-color-3' title={Format.date(item.updatedAt)}>{ Format.stringDate(item.updatedAt) }</Label>
+                                                    <Label className='mt-1 text-color-3 dark:text-color-3-dark' title={Format.date(item.updatedAt)}>{ Format.stringDate(item.updatedAt) }</Label>
                                                 </section>
 
                                                 <section className="col-span-2">
@@ -372,7 +372,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                                                     <div className='flex gap-1 items-center'>
                                                         <Svg.Close className={`fill-red-500 w-3 h-3 mt-1 ${ item.warranty && 'hidden' }`} />
                                                         <Svg.Check className={`fill-blue-500 w-3 h-3 mt-1 ${ !item.warranty && 'hidden' }`} />
-                                                        <Label className='mt-1 text-color-3 truncate' title={Format.date(item.updatedAt)}>{ item.warranty ? 'com garantia' : 'sem garantia' }</Label>
+                                                        <Label className='mt-1 text-color-3 dark:text-color-3-dark truncate' title={Format.date(item.updatedAt)}>{ item.warranty ? 'com garantia' : 'sem garantia' }</Label>
                                                     </div>
                                                 </section>
                                                 
@@ -415,7 +415,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                                                     <Description>Garantia</Description>
                                                     <div className='flex items-center gap-2'>
                                                         <Switch onChange={(e) => setEditedOrderProducts(prev => ({...prev, warranty: !editedOrderProducts.warranty }))} value={editedOrderProducts.warranty}/>
-                                                        <Description className='text-color-3 truncate'>do produto / serviço</Description>
+                                                        <Description className='text-color-3 dark:text-color-3-dark truncate'>do produto / serviço</Description>
                                                     </div>
                                                 </div>
 
@@ -425,9 +425,9 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                                                 </div>
 
                                                 <div className='col-span-2 flex gap-3'>
-                                                    <Button onClick={() => removeProduct(i)} className='text-color-2'>Remover</Button>
-                                                    <Button onClick={() => editedOrderProducts.productId !== -1 ? editProduct({...item, edit: false}, i) : removeProduct(i)} className={`ml-auto text-color-2 `}>Cancelar</Button>
-                                                    <Button onClick={() => editedOrderProducts.productId !== -1 ? saveEditProduct(i) : notification({ type: 'warning', title: 'Atenção', description: 'Serviço / produto precisa ser preenchido!'  })} className='flex justify-center bg-primary text-color-2 min-w-[82px]'>Salvar</Button>
+                                                    <Button onClick={() => removeProduct(i)} className='text-color-2 dark:text-color-2-dark'>Remover</Button>
+                                                    <Button onClick={() => editedOrderProducts.productId !== -1 ? editProduct({...item, edit: false}, i) : removeProduct(i)} className={`ml-auto text-color-2 dark:text-color-2-dark `}>Cancelar</Button>
+                                                    <Button onClick={() => editedOrderProducts.productId !== -1 ? saveEditProduct(i) : notification({ type: 'warning', title: 'Atenção', description: 'Serviço / produto precisa ser preenchido!'  })} className='flex justify-center bg-primary text-color-2 dark:text-color-2-dark min-w-[82px]'>Salvar</Button>
                                                 </div>
 
                                             </Td>
@@ -452,7 +452,7 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                             Atendimento
                         </Paragraph>
 
-                        <Description className='text-color-3'>
+                        <Description className='text-color-3 dark:text-color-3-dark'>
                             Finalize o atendimento e calcule o preço total
                         </Description>
 
@@ -460,33 +460,33 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
                     <section className='grid grid-cols-4'>
 
-                        <div onClick={() => setEditedOrder(prev => ({...prev, status: 'em andamento'}) )} className={`button col-span-4 p-4 gap-3 flex border rounded-t-xl ${ editedOrder.status == 'em andamento' ? 'border-yellow-500' : '' }`}>
+                        <div onClick={() => setEditedOrder(prev => ({...prev, status: 'em andamento'}) )} className={`button col-span-4 p-4 gap-3 flex border rounded-t-xl ${ editedOrder.status == 'em andamento' ? 'border-yellow-500' : 'dark:border-dark' }`}>
 
                             <Checkbox className={`${ editedOrder.status == 'em andamento' ? 'fill-yellow-500' : '' }`} value={editedOrder.status == 'em andamento'}/>
 
                             <section className='flex flex-col gap-1'>
                                 <Description className='truncate'>Em andamento</Description>
-                                <Label className='text-color-3'>O atendimento atualmente está sendo feito</Label>
+                                <Label className='text-color-3 dark:text-color-3-dark'>O atendimento atualmente está sendo feito</Label>
                             </section>
 
                         </div>
-                        <div onClick={() => setEditedOrder(prev => ({...prev, status: 'sem solucao'}) )} className={`button col-span-4 p-4 gap-3 flex border ${ editedOrder.status == 'sem solucao' ? 'border-red-500' : '' }`}>
+                        <div onClick={() => setEditedOrder(prev => ({...prev, status: 'sem solucao'}) )} className={`button col-span-4 p-4 gap-3 flex border ${ editedOrder.status == 'sem solucao' ? 'border-red-500' : 'dark:border-dark' }`}>
 
                             <Checkbox className={`${ editedOrder.status == 'sem solucao' ? 'fill-red-500' : '' }`} value={editedOrder.status == 'sem solucao'}/>
 
                             <section className='flex flex-col gap-1'>
                                 <Description className='truncate'>Sem solução</Description>
-                                <Label className='text-color-3'>O atendimento atualmente está sendo feito</Label>
+                                <Label className='text-color-3 dark:text-color-3-dark'>O atendimento atualmente está sendo feito</Label>
                             </section>
 
                         </div>
-                        <div onClick={() => setEditedOrder(prev => ({...prev, status: 'finalizado'}) )} className={`button col-span-4 p-4 gap-3 flex border rounded-b-xl ${ editedOrder.status == 'finalizado' ? 'border-green-500' : '' }`}>
+                        <div onClick={() => setEditedOrder(prev => ({...prev, status: 'finalizado'}) )} className={`button col-span-4 p-4 gap-3 flex border rounded-b-xl ${ editedOrder.status == 'finalizado' ? 'border-green-500' : 'dark:border-dark' }`}>
 
                             <Checkbox className={`${ editedOrder.status == 'finalizado' ? 'fill-green-500' : '' }`} value={editedOrder.status == 'finalizado'}/>
 
                             <section className='flex flex-col gap-1 w-full'>
                                 <Description className='truncate'>Finalizado</Description>
-                                <Label className={`text-color-3 ${ editedOrder.status == 'finalizado' && 'hidden' }`}>O atendimento atualmente está sendo feito</Label>
+                                <Label className={`text-color-3 dark:text-color-3-dark ${ editedOrder.status == 'finalizado' && 'hidden' }`}>O atendimento atualmente está sendo feito</Label>
                                 <div className={`w-full flex flex-col overflow-hidden duration-300 ${ editedOrder.status == 'finalizado' ? 'h-[5rem]' : 'h-0' }`}>
                                     
                                     <section className='flex justify-between opacity-50'>
@@ -509,13 +509,13 @@ function OrderModal({ isOpen, order, onClose }: Props) {
 
                     <section className='flex gap-4'>
 
-                        <Button onClick={remove} className={`justify-center text-color-2 min-w-[82px] ${ editedOrder.id && editedOrder.id != -1 ? 'flex' : 'hidden' }`}>
-                            <Svg.Spinner className={`w-5 h-5 fill-background-2 opacity-[.4] ${!removeLoading && 'hidden'}`}/>
+                        <Button onClick={remove} className={`justify-center text-color-2 dark:text-color-2-dark min-w-[82px] ${ editedOrder.id && editedOrder.id != -1 ? 'flex' : 'hidden' }`}>
+                            <Svg.Spinner className={`w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4] ${!removeLoading && 'hidden'}`}/>
                             { !removeLoading ? 'Excluir' : '' }
                         </Button>
-                        <Button onClick={()=> onClose()} className='ml-auto text-color-2'>Cancelar</Button>
-                        <Button onClick={save} className='flex justify-center bg-primary text-color-2 min-w-[82px]'>
-                            <Svg.Spinner className={`w-5 h-5 fill-background-2 opacity-[.4] ${!saveLoading && 'hidden'}`}/>
+                        <Button onClick={()=> onClose()} className='ml-auto text-color-2 dark:text-color-2-dark'>Cancelar</Button>
+                        <Button onClick={save} className='flex justify-center bg-primary text-background-2 dark:text-background-2-dark min-w-[82px]'>
+                            <Svg.Spinner className={`w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4] ${!saveLoading && 'hidden'}`}/>
                             { !saveLoading ? 'Salvar' : '' }
                         </Button>
 

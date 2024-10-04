@@ -26,7 +26,7 @@ export default function Select(props: Props) {
 
   const list: any[] = [];
 
-  data.forEach((e, i) => {
+  data && data.forEach((e, i) => {
 
     list.push(renderItem(e, i))
 
@@ -52,13 +52,13 @@ export default function Select(props: Props) {
 
       <div className='relative flex'>
         
-        <button onClick={open} className={`relative flex gap-3 w-fit border description bg-background-2 text-color-1 dark:bg-background-2-dark dark:text-color-1-dark font-semibold py-1.5 px-4 rounded-lg hover:scale-[1.01] duration-150 ${className}`} {...rest as any}>
+        <button onClick={open} className={`relative flex gap-3 w-fit border description bg-background-2 text-color-1 dark:bg-background-2-dark dark:text-color-1-dark py-1.5 px-4 rounded-lg hover:scale-[1.01] duration-150 ${className}`} {...rest as any}>
           <span>{value}</span>
           <Svg.Angle className='ml-auto w-4 h-4 fill-color-1 dark:fill-color-1-dark rotate-180 mt-[.25rem]'/>
         </button>
 
         <Modal isOpen={isOpen} onClose={close}>
-          <div className="border rounded-lg bg-background-2 flex flex-col gap-2 py-4 px-5 w-fit h-fit max-h-72 text-color-1 text-clor-1-dark description overflow-auto" >
+          <div className="border rounded-lg bg-background-2 dark:bg-background-2-dark flex flex-col gap-2 py-4 px-5 w-fit h-fit max-h-72 text-color-1 dark:text-color-1-dark description overflow-auto" >
             { 
               list.map((item, i) => (
                 <div key={i} className='cursor-pointer hover:scale-[1.01] duration-150' onClick={close}>{item}</div>

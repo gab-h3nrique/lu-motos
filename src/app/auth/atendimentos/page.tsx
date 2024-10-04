@@ -132,7 +132,7 @@ function Page() {
       <Subtitle className='font-semibold'>Atendimentos</Subtitle>
 
       <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
-        <Svg.Angle className='w-4 h-4 fill-color-1 -rotate-90 mt-[.25rem]'/>
+        <Svg.Angle className='w-4 h-4 fill-color-1 dark:fill-color-1-dark -rotate-90 mt-[.25rem]'/>
         voltar
       </Description>
 
@@ -140,8 +140,8 @@ function Page() {
 
         <div className='gap-4 flex w-full justify-end'>
           <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
-          <Button className='bg-primary overflow-hidden text-background-2' onClick={() => openOrderModal(null)}>
-            <Svg.Plus className='w-5 h-5 fill-background-2'/>
+          <Button className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark' onClick={() => openOrderModal(null)}>
+            <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
             Novo atendimento
           </Button>
         </div>

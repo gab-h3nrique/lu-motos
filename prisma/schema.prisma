@@ -91,8 +91,9 @@ model Products {
 
   name            String
   brand           String?
-  type            String? // service // product
+  type            String? // serviço // produto
   stock           Int @default(1)
+  costValue       Float? @default(0.00)
   value           Float? @default(0.00)
 
   orders            OrderProducts[] @relation("product")

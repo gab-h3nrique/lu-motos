@@ -10,7 +10,7 @@ function Header() {
 
     return (
 
-        <header className='w-full flex justify-start p-2 border border-x-0 bg-background-2 dark:bg-background-2-dark'>
+        <header className='w-full flex justify-start p-2 border border-x-0 border-t-0 dark:border-dark dark:border-x-0 dark:border-t-0 bg-background-2 dark:bg-background-2-dark'>
 
             <MenuHeader className=''/>
         

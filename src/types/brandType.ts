@@ -4,3 +4,10 @@ export interface BrandType {
     name: string,
     
 }
+
+export const EMPTY_BRAND = {
+
+    id: undefined,
+    name: ''
+
+}

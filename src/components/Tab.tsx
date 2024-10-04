@@ -27,7 +27,7 @@ function Tab() {
 
   return (
 
-    <nav className='p-3 gap-8 w-full h-fit justify-center flex md:hidden relative border border-x-0 border-b-0 bg-background-2 darK:bg-background-2-dark overflow-auto'>
+    <nav className='p-3 gap-8 w-full h-fit justify-center flex md:hidden relative border border-x-0 border-b-0 dark:border-dark dark:border-x-0 dark:border-b-0 bg-background-2 dark:bg-background-2-dark overflow-auto'>
 
       <section onClick={() => push('')} className='button relative gap-1 flex flex-col justify-start items-center cursor-pointer'>
         <Svg.House className={`w-6 h-6 ${ page == '' ? 'fill-primary' : 'fill-color-1 dark:fill-color-1-dark'}`}/>

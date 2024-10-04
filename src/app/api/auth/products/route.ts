@@ -72,9 +72,9 @@ export async function POST(request: Request) {
 
         const formated = <ProductType>{ ...req }
 
-        const product = await ProductModel.upsert(formated)
+        const data = await ProductModel.upsert(formated)
 
-        return new Response( JSON.stringify( { success: true, product } ) , { status: 201 });
+        return new Response( JSON.stringify( { success: true, data } ) , { status: 201 });
 
     } catch(error:any) {
 
@@ -92,9 +92,9 @@ export async function DELETE(request: Request) {
 
         if(!id) return new Response( JSON.stringify( { success: false, message: 'id is required!' } ) , { status: 406 });
 
-        const product = await ProductModel.delete(Number(id))
+        const data = await ProductModel.delete(Number(id))
 
-        return new Response( JSON.stringify( { success: true, product } ) , { status: 200 });
+        return new Response( JSON.stringify( { success: true, data } ) , { status: 200 });
 
     } catch(error:any) {
 
