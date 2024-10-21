@@ -13,7 +13,9 @@ export default function layout({children}: Props) {
     return (
 
         <Suspense fallback={<Loading/>}>
-            {children}
+            <section className='p-4 flex w-full h-full overflow-y-auto overflow-x-hidden relative'>
+                {children}
+            </section>
         </Suspense>
 
     )

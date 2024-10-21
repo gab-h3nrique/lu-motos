@@ -26,7 +26,8 @@ export default function layout({children}: Props) {
 
                     <Aside/>
 
-                    <main className='p-4 flex w-full h-full overflow-auto'>
+                    {/* <main className='p-4 flex w-full h-full overflow-auto relative'> */}
+                    <main className='flex w-full h-full overflow-hidden relative'>
 
                         {children}
 

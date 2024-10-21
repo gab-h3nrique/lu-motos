@@ -111,7 +111,7 @@ function BrandModal({ isOpen, brand, onClose }: Props) {
     
     return (
 
-        <section className={`bg-background-1 dark:bg-background-1-dark flex w-full h-full absolute ${isOpen ? 'fles' : 'hidden'}`}>
+        <section className={`bg-background-1 dark:bg-background-1-dark w-full h-full ${isOpen ? 'flex' : 'hidden'}`}>
             <div className='py-12 gap-1 w-full h-full flex flex-col items-center relative'>
 
                 <div className="flex flex-col gap-12 w-full max-w-[45rem] pb-10">

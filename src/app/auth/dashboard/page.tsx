@@ -7,22 +7,22 @@ import React, { memo, useState } from 'react'
 import Button from '@/components/elements/Button'
 import Select from '@/components/elements/Select'
 import Modal from '@/components/modals/Modal'
-import Pulsar from 'pulsar-socket'
+// import Pulsar from 'pulsar-socket'
 import Input from '@/components/elements/Input'
 
-const socket = Pulsar('ws://localhost:3001/pool/pulsar-cm1i249ph00013q5utip6oxel', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicHVsc2FyIiwiaWF0IjoxNzI3MjgwMzQyfQ.quj4WRoyMwvdgyv1gVzus5L5PKsfbP4CXIFZ1QSscgI')
+// const socket = Pulsar('ws://138.0.172.170:3001/pool/pulsar-cm26sbz9e0000i70i0v4z2w19', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicHVsc2FyIiwiaWF0IjoxNzI4Nzc1NTYwfQ.rWZ0L3G49INSlF9jIvylXEtpcEKS78cIRU9oX6m2YJA')
 const page = () => {
 
     const [ message , setMessage ] = useState('')
 
     const [ array , setArray ] = useState<string[]>([])
 
-    socket.on('chat', ({ message }) => setArray(prev => ([...prev, message])))
+    // socket.on('chat', ({ message }) => setArray(prev => ([...prev, message])))
 
 
     function send() {
 
-        socket.emit('chat', { message })
+        // socket.emit('chat', { message })
 
         setMessage('')
 
@@ -30,7 +30,7 @@ const page = () => {
 
     return (
 
-        <div className='gap-2 flex flex-col justify-center items-center'>
+        <div className={`gap-1 w-full h-fit flex-col relative overflow-hidden flex`}>
 
             <div className='flex flex-col gap-2 w-full'>
 

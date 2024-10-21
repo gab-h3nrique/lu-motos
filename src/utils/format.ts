@@ -23,7 +23,7 @@ function factory() {
             const years = Math.floor(months / 12);
         
             if(years > 0) return `há ${years} ano${years > 1 ? "s" : ""}`;
-            if(years == 0 && months > 0) return `há ${months} mes${months > 1 ? "es" : ""}`;
+            if(years == 0 && months > 0) return `há ${months} mês${months > 1 ? "es" : ""}`;
             if(months == 0 && days > 0) return `há ${days} dia${days > 1 ? "s" : ""}`;
             if(days == 0 && hours > 0) return `há ${hours} hora${hours > 1 ? "s" : ""}`;
             if(hours == 0 && minutes > 0) return `há ${minutes} minuto${minutes > 1 ? "s" : ""}`;
@@ -37,8 +37,13 @@ function factory() {
 
         money: (value: any) => {
 
-            // const match : any = /(\d+)(\.\d+)?/.exec(String(value))
-            // return match[1].replace(/\d(?=(\d{3})+$)/g, "$&,") + (match[2] ? match[2].replace(".", ",") : ",00");
+            if(typeof value == 'number') {
+
+                const roundedValue = Math.round(value * 100) / 100;
+                const match : any = /(\d+)(\.\d+)?/.exec(String(roundedValue))
+                return match[1].replace(/\d(?=(\d{3})+$)/g, "$&,") + (match[2] ? match[2].replace(".", ",") : ",00");
+
+            }
 
             let v = value.toString().replace(/\D/g,'');
             v = (v/100).toFixed(2) + '';

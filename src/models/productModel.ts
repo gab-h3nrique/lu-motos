@@ -50,9 +50,11 @@ function model() {
 
         upsert: async(product: ProductType) => {
 
+            const { id, ...rest } = product
+
             const created = await prisma.products.upsert({
                 where: {
-                    id: product.id
+                    id: product?.id ? product.id : -1
                 },
                 update: product,
                 create: product

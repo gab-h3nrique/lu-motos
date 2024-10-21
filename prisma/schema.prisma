@@ -73,6 +73,7 @@ model Orders {
   warrantyDescription String?
 
   status              String @default("aguardando peça") // aberto / em andamento / finalizado / fechado
+  installments        Int? @default(1)
   discount            Float? @default(0.00)
 
   orderProducts       OrderProducts[] @relation("order")

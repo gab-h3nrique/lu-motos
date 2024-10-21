@@ -137,10 +137,8 @@ function OrderModal({ isOpen, order, onClose }: Props) {
     function totalCalc() {
 
         if(!editedOrder.orderProducts || !editedOrder.orderProducts?.length) return '0.00'
-
-        const total = editedOrder?.orderProducts.filter(a => a.status == 'finalizado').reduce((a, b) => a + b.value, 0)
         
-        return total / editedOrder.installments
+        return editedOrder?.orderProducts.filter(a => a.status == 'finalizado').reduce((a, b) => a + b.value, 0)
 
     }
 
@@ -451,92 +449,6 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                     <section className='flex flex-col'>
 
                         <Paragraph>
-                            Forma de pagamento
-                        </Paragraph>
-
-                        <Description className='text-color-3 dark:text-color-3-dark'>
-                            Escolha a forma de pagamento que o cliente irá realizar
-                        </Description>
-
-                    </section>
-
-                    <section className='grid grid-cols-2 gap-6'>
-
-                        <div className='col-span-2 flex flex-col'>
-                            <Description className='mb-1'>Pagamento</Description>
-                            <div className='mb-4 flex items-center gap-3'>
-                                <Checkbox onChange={(e) => setEditedOrder(prev => ({...prev, installments: 1}) )} value={editedOrder.installments == 1}/>
-                                <div className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-green-200/10 rounded-md`}>
-                                    <span className='h-2 w-2 rounded-full bg-green-500'></span>
-                                    <Label className='text-green-500 truncate'>à vista</Label>
-                                </div>
-                            </div>
-                            <div className='mb-4 flex items-center gap-3'>
-                                <Checkbox onChange={(e) => setEditedOrder(prev => ({...prev, installments: 2}) )} value={editedOrder.installments > 1}/>
-                                <div className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>parcelado</Label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={`col-span-2 flex-col ${ editedOrder.installments > 1 ? 'flex' : 'hidden' }`}>
-                            <Description className='mb-1'>Parcelamento</Description>
-                            <div className='mb-4 flex flex-wrap items-center gap-3 max-w-[30rem]'>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 2}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 2 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>2 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 3}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 3 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>3 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 4}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 4 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>4 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 5}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 5 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>5 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 6}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 6 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>6 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 7}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 7 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>7 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 8}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 8 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>8 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 9}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 9 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>9 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 10}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 10 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>10 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 11}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 11 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>11 vezes</Label>
-                                </div>
-                                <div onClick={(e) => setEditedOrder(prev => ({...prev, installments: 12}) )} className={`flex gap-1 w-fit h-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md button hover:opacity-100 ${ editedOrder.installments == 12 ? '' : 'opacity-60' }`}>
-                                    <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-                                    <Label className='text-yellow-500 truncate'>12 vezes</Label>
-                                </div>
-                            </div>
-                        </div>
-
-                    </section>
-
-                    <Hr/>
-
-                    <section className='flex flex-col'>
-
-                        <Paragraph>
                             Atendimento
                         </Paragraph>
 
@@ -581,10 +493,8 @@ function OrderModal({ isOpen, order, onClose }: Props) {
                                         <Description className='truncate'>Subtotal:</Description>
                                         <Paragraph className='truncate'>R$ { editedOrder.orderProducts?.length && Format.money( editedOrder?.orderProducts.reduce((a, b) => a + b.value, 0) ) }</Paragraph>
                                     </section>
-                                    <section className='gap-2 mt-auto flex items-center'>
-                                        <Paragraph className='truncate mr-auto'>Total:</Paragraph>
-
-                                        <Label className='truncate mt-1'>{ editedOrder.installments == 1 ? 'à vista' : `${editedOrder.installments}x de`}</Label>
+                                    <section className='mt-auto flex justify-between'>
+                                        <Paragraph className='truncate'>Total:</Paragraph>
                                         <Subtitle className='truncate'>R$ { Format.money(totalCalc()) }</Subtitle>
                                     </section>
                                     

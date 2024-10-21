@@ -116,62 +116,63 @@ function Page() {
 
   return (
 
-    <div className='gap-1 w-full h-fit flex flex-col'>
+    <>
+      <div className={`gap-1 w-full h-fit flex-col relative overflow-hidden ${modal ? 'hidden' : 'flex'}`}>
 
-      <Subtitle className='font-semibold'>Marcas</Subtitle>
+        <Subtitle className='font-semibold'>Marcas</Subtitle>
 
-      <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
-        <Svg.Angle className='w-4 h-4 fill-color-1 -rotate-90 mt-[.25rem]'/>
-        voltar
-      </Description>
+        <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
+          <Svg.Angle className='w-4 h-4 fill-color-1 -rotate-90 mt-[.25rem]'/>
+          voltar
+        </Description>
 
-      <section className='mt-3 w-full h-full flex flex-col gap-4'>
+        <section className='mt-3 w-full h-full flex flex-col gap-4'>
 
-        <div className='gap-4 flex w-full justify-end'>
-          <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
-          <Button onClick={() => openModal(null)} className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark'>
-            <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
-            Nova marca
+          <div className='gap-4 flex w-full justify-end'>
+            <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
+            <Button onClick={() => openModal(null)} className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark'>
+              <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
+              Nova marca
+            </Button>
+          </div>
+
+
+          <Table className='w-full'>
+            <Tbody className='w-full h-fit'>
+              <Tr>
+                <Th className='text-start font-semibold max-w-36'>Código</Th>
+                <Th className='text-start font-semibold'>Marca</Th>
+              </Tr>
+
+              { brandArray.map((item, i)=> (
+
+                <Tr key={`id-${i}`} className='list' onClick={() => openModal(item)}>
+                  <Td className='max-w-36'>{ item.id }</Td>
+                  <Td>{ item.name }</Td>
+                </Tr>
+
+              ))}
+
+              { loading &&
+                <Tr className='list'>
+                  <Td className='max-w-36'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                  <Td className=''><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                </Tr>
+              }
+
+            </Tbody>
+          </Table>
+
+          <Button onClick={() => !loading && getPaginated((page + 1))} className={`w-full flex justify-center border-0 dark:border-0 bg-transparent ${brandArray.length >= total ? 'hidden' : ''}`}>
+            <Observer isIntersecting={()=> !loading && getPaginated((page + 1))}/>
+            <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
           </Button>
-        </div>
 
+        </section>
 
-        <Table className='w-full'>
-          <Tbody className='w-full h-fit'>
-            <Tr>
-              <Th className='text-start font-semibold max-w-36'>Código</Th>
-              <Th className='text-start font-semibold'>Marca</Th>
-            </Tr>
-
-            { brandArray.map((item, i)=> (
-
-              <Tr key={`id-${i}`} className='list' onClick={() => openModal(item)}>
-                <Td className='max-w-36'>{ item.id }</Td>
-                <Td>{ item.name }</Td>
-              </Tr>
-
-            ))}
-
-            { loading &&
-              <Tr className='list'>
-                <Td className='max-w-36'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className=''><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-              </Tr>
-            }
-
-          </Tbody>
-        </Table>
-
-        <Button onClick={() => !loading && getPaginated((page + 1))} className={`w-full flex justify-center border-0 dark:border-0 bg-transparent ${brandArray.length >= total ? 'hidden' : ''}`}>
-          <Observer isIntersecting={()=> !loading && getPaginated((page + 1))}/>
-          <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
-        </Button>
-
-      </section>
-
+      </div>
       <BrandModal isOpen={modal} onClose={data => closeModal(data)} brand={selected ? selected : undefined}/>
-
-    </div>
+    </>
 
   )
 

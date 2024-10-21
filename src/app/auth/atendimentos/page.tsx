@@ -127,75 +127,77 @@ function Page() {
 
   return (  
 
-    <div className='gap-1 w-full h-full flex flex-col relative'>
+    <>
+      <div className={`gap-1 w-full h-fit flex-col relative overflow-hidden ${modal ? 'hidden' : 'flex'}`}>
 
-      <Subtitle className='font-semibold'>Atendimentos</Subtitle>
+        <Subtitle className='font-semibold'>Atendimentos</Subtitle>
 
-      <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
-        <Svg.Angle className='w-4 h-4 fill-color-1 dark:fill-color-1-dark -rotate-90 mt-[.25rem]'/>
-        voltar
-      </Description>
+        <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
+          <Svg.Angle className='w-4 h-4 fill-color-1 dark:fill-color-1-dark -rotate-90 mt-[.25rem]'/>
+          voltar
+        </Description>
 
-      <section className='mt-3 w-full h-full flex flex-col gap-4'>
+        <section className='mt-3 w-full h-full flex flex-col gap-4'>
 
-        <div className='gap-4 flex w-full justify-end'>
-          <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
-          <Button className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark' onClick={() => openOrderModal(null)}>
-            <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
-            Novo atendimento
+          <div className='gap-4 flex w-full justify-end'>
+            <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
+            <Button className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark' onClick={() => openOrderModal(null)}>
+              <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
+              Novo atendimento
+            </Button>
+          </div>
+
+
+          <Table className='w-full'>
+            <Tbody className='w-full h-fit'>
+              <Tr>
+                <Th className='text-start font-semibold max-w-40'>Modelo</Th>
+                <Th className='text-start font-semibold'>Cliente</Th>
+                <Th className='text-start font-semibold max-w-32 hidden md:flex'>Serviços</Th>
+                <Th className='text-start font-semibold max-w-36 hidden md:flex'>Valor</Th>
+                <Th className='text-start font-semibold max-w-32 hidden md:flex'>Status</Th>
+                <Th className='text-start font-semibold max-w-32 hidden md:flex'>Data</Th>
+              </Tr>
+
+              { ordersArray.map((item, i)=> (
+
+                <Tr key={`id-${i}`} className='list' onClick={() => openOrderModal(item)}>
+                  <Td className='text-start font-semibold max-w-40'>{ item.model }</Td>
+                  <Td className='text-start font-semibold'>{ item.client?.name }</Td>
+                  <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.orderProducts?.length || 0 }</Td>
+                  <Td className='text-start font-semibold max-w-36 hidden md:flex'>R$ { Format.money(totalCalc(item)) }</Td>
+                  <Td className='text-start font-semibold max-w-32 hidden md:flex'><Status value={item.status}/></Td>
+                  <Td className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Td>
+                </Tr>
+
+              ))}
+
+              { loading &&
+                <Tr className='list'>
+                  <Td className='text-start font-semibold max-w-40'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                  <Td className='text-start font-semibold'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                  <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                  <Td className='text-start font-semibold max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                  <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                  <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
+                </Tr>
+              }
+
+            </Tbody>
+          </Table>
+
+
+          <Button onClick={() => !loading && getPaginated((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${ ordersArray.length >= total ? 'hidden' : ''}`}>
+            <Observer isIntersecting={()=> !loading && getPaginated((page + 1))}/>
+            <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
           </Button>
-        </div>
+
+        </section>
 
 
-        <Table className='w-full'>
-          <Tbody className='w-full h-fit'>
-            <Tr>
-              <Th className='text-start font-semibold max-w-40'>Modelo</Th>
-              <Th className='text-start font-semibold'>Cliente</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Serviços</Th>
-              <Th className='text-start font-semibold max-w-36 hidden md:flex'>Valor</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Status</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Data</Th>
-            </Tr>
-
-            { ordersArray.map((item, i)=> (
-
-              <Tr key={`id-${i}`} className='list' onClick={() => openOrderModal(item)}>
-                <Td className='text-start font-semibold max-w-40'>{ item.model }</Td>
-                <Td className='text-start font-semibold'>{ item.client?.name }</Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'>{ item?.orderProducts?.length || 0 }</Td>
-                <Td className='text-start font-semibold max-w-36 hidden md:flex'>R$ { Format.money(totalCalc(item)) }</Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Status value={item.status}/></Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'title={Format.date(item.createdAt)}>{ Format.stringDate(item.createdAt) }</Td>
-              </Tr>
-
-            ))}
-
-            { loading &&
-              <Tr className='list'>
-                <Td className='text-start font-semibold max-w-40'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='text-start font-semibold'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='text-start font-semibold max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-                <Td className='text-start font-semibold max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 opacity-[.4]'/></Td>
-              </Tr>
-            }
-
-          </Tbody>
-        </Table>
-
-
-        <Button onClick={() => !loading && getPaginated((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${ ordersArray.length >= total ? 'hidden' : ''}`}>
-          <Observer isIntersecting={()=> !loading && getPaginated((page + 1))}/>
-          <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
-        </Button>
-
-      </section>
-
+      </div>
       <OrderModal isOpen={modal} onClose={data => closeOrderModal(data)} order={selectedOrder ? selectedOrder : undefined}/>
-
-    </div>
+    </>
 
   )
 

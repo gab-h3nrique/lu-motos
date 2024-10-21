@@ -106,9 +106,13 @@ function ProdctModal({ isOpen, product, onClose }: Props) {
 
             setSaveLoading(true)
 
+            const formated = {
+                ...edited,
+                costValue: Number(String(edited.costValue).replace(',', '.')),
+                value: Number(String(edited.value).replace(',', '.'))
+            }
 
-
-            const { data, total, success, message, ...rest } = await Api.post('/api/auth/products', edited)
+            const { data, total, success, message, ...rest } = await Api.post('/api/auth/products', formated)
         
             if(!success) return notification({ type: 'warning', title: 'Atenção', description: 'Nenhum dado foi encontrado.' })
 
@@ -149,7 +153,7 @@ function ProdctModal({ isOpen, product, onClose }: Props) {
     
     return (
 
-        <section className={`bg-background-1 dark:bg-background-1-dark flex w-full h-full absolute ${isOpen ? 'fles' : 'hidden'}`}>
+        <section className={`bg-background-1 dark:bg-background-1-dark flex w-full h-full ${isOpen ? 'fles' : 'hidden'}`}>
             <div className='py-12 gap-1 w-full h-full flex flex-col items-center relative'>
 
                 <div className="flex flex-col gap-12 w-full max-w-[45rem] pb-10">
@@ -190,7 +194,7 @@ function ProdctModal({ isOpen, product, onClose }: Props) {
 
                         <div className={`col-span-4 max-w-[20rem] ${edited.type == 'serviço' ? 'hidden' : ''}`}>
                             <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Estoque</Description>
-                            <Input type='number' onChange={(e: any) => setEdited(prev => ({...prev, stock: e.target.value }))} value={edited?.stock}/>
+                            <Input type='number' onChange={(e: any) => setEdited(prev => ({...prev, stock: Number(e.target.value) }))} value={edited?.stock}/>
                         </div>
 
                     </section>
@@ -212,20 +216,15 @@ function ProdctModal({ isOpen, product, onClose }: Props) {
                     <section className='grid grid-cols-4 gap-6'>
 
                         <div className={'col-span-4 max-w-[20rem]'}>
-                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Nome<span className='ml-1 text-red-500'>*</span></Description>
-                            <Input type='text' onChange={(e: any) => setEdited(prev => ({...prev, name: e.target.value }))} value={edited?.name}/>
+                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Compra</Description>
+                            <Input type="text" className='' onChange={(e: any) => setEdited(prev => ({...prev, costValue: Format.money(e.target.value)  }))} value={Format.money(edited.costValue)}/>
                         </div>
                         <div className={'col-span-4 max-w-[20rem]'}>
-                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Marca</Description>
-                            <Select className='w-full' data={brandArray as any} value={edited?.brand} renderItem={(e, i) => <div key={i} onClick={() => setEdited(prev => ({...prev, brand: e.name }))}>{e.name}</div>} />
-                        </div>
-                        <div className={'col-span-4 max-w-[20rem]'}>
-                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Estoque</Description>
-                            <Input type='number' onChange={(e: any) => setEdited(prev => ({...prev, stock: e.target.value }))} value={edited?.stock}/>
+                            <Description className='mb-1 text-color-2 dark:text-color-2-dark'>Venda<span className='ml-1 text-red-500'>*</span></Description>
+                            <Input type="text" className='' onChange={(e: any) => setEdited(prev => ({...prev, value: Format.money(e.target.value)  }))} value={Format.money(edited.value)}/>
                         </div>
 
                     </section>
-
 
                     <Hr/>
 

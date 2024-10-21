@@ -27,6 +27,7 @@ export interface OrderType {
     warrantyDescription?: string,
 
     status: string,
+    installments: number,
     discount:  number,
 
     orderProducts?: OrderProductsType[],
@@ -58,6 +59,7 @@ export const EMPTY_ORDER = {
     warrantyDescription: undefined,
 
     status: 'em andamento',
+    installments: 1,
     discount: 0,
 
     orderProducts: [],

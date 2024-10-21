@@ -117,80 +117,80 @@ function Page() {
 
   return (
 
-    <div className='gap-1 w-full h-fit flex flex-col'>
+    <>
+      <div className={`gap-1 w-full h-fit flex-col relative overflow-hidden ${modal ? 'hidden' : 'flex'}`}>
 
-      <Subtitle className='font-semibold'>Produtos</Subtitle>
+        <Subtitle className='font-semibold'>Produtos</Subtitle>
 
-      <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
-        <Svg.Angle className='w-4 h-4 fill-color-2 dark:fill-color-2-dark -rotate-90 mt-[.25rem]'/>
-        voltar
-      </Description>
+        <Description onClick={router.back} className='flex gap-1 cursor-pointer w-fit'>
+          <Svg.Angle className='w-4 h-4 fill-color-2 dark:fill-color-2-dark -rotate-90 mt-[.25rem]'/>
+          voltar
+        </Description>
 
-      <section className='mt-3 w-full h-full flex flex-col gap-4'>
+        <section className='mt-3 w-full h-full flex flex-col gap-4'>
 
-        <div className='gap-4 flex w-full justify-end'>
-          <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
-          <Button onClick={() => openModal(null)} className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark'>
-            <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
-            Novo produto
+          <div className='gap-4 flex w-full justify-end'>
+            <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
+            <Button onClick={() => openModal(null)} className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark'>
+              <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
+              Novo produto
+            </Button>
+          </div>
+
+
+          <Table className='w-full'>
+            <Tbody className='w-full h-fit'>
+              <Tr>
+                <Th className='text-start font-semibold max-w-36'>Código</Th>
+                <Th className='text-start font-semibold'>Produto</Th>
+                <Th className='text-start font-semibold max-w-32 hidden md:flex'>Tipo</Th>
+                <Th className='text-start font-semibold max-w-32 hidden md:flex'>Quantidade</Th>
+                <Th className='text-start font-semibold max-w-36 hidden md:flex'>Valor</Th>
+                <Th className='text-start font-semibold max-w-32 hidden md:flex'>Modificado</Th>
+                <Th className='text-start font-semibold max-w-32 hidden md:flex'>Criado</Th>
+              </Tr>
+
+              { productArray.map((product, i)=> (
+
+                <Tr key={`id-${i}`} className='list' onClick={() => openModal(product)}>
+                  <Td className='max-w-36'>{ product.id }</Td>
+                  <Td>{ product.name }</Td>
+                  <Td className='max-w-32 hidden md:flex'>{ product.type }</Td>
+                  <Td className='max-w-32 hidden md:flex'>{ product.stock }</Td>
+                  <Td className='max-w-36 hidden md:flex'>R$ { Format.money(product.value) }</Td>
+                  <Td className='max-w-32 hidden md:flex' title={Format.date(product.updatedAt)}>{ Format.stringDate(product.updatedAt) }</Td>
+                  <Td className='max-w-32 hidden md:flex' title={Format.date(product.createdAt)}>{ Format.stringDate(product.createdAt) }</Td>
+                </Tr>
+
+              ))}
+
+              { loading &&
+                <Tr className='list'>
+                  <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                  <Td><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                  <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                  <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                  <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                  <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                  <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
+                </Tr>
+              }
+
+            </Tbody>
+          </Table>
+
+
+          <Button onClick={() => !loading && getPaginatedProduct((page + 1))} className={`w-full flex justify-center border-0 dark:border-0 bg-transparent ${productArray.length >= total ? 'hidden' : ''}`}>
+            <Observer isIntersecting={()=> !loading && getPaginatedProduct((page + 1))}/>
+            <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
           </Button>
-        </div>
+
+        </section>
 
 
-        <Table className='w-full'>
-          <Tbody className='w-full h-fit'>
-            <Tr>
-              <Th className='text-start font-semibold max-w-36'>Código</Th>
-              <Th className='text-start font-semibold'>Produto</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Tipo</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Quantidade</Th>
-              <Th className='text-start font-semibold max-w-36 hidden md:flex'>Valor</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Modificado</Th>
-              <Th className='text-start font-semibold max-w-32 hidden md:flex'>Criado</Th>
-            </Tr>
-
-            { productArray.map((product, i)=> (
-
-              <Tr key={`id-${i}`} className='list' onClick={() => openModal(product)}>
-                <Td className='max-w-36'>{ product.id }</Td>
-                <Td>{ product.name }</Td>
-                <Td className='max-w-32 hidden md:flex'>{ product.type }</Td>
-                <Td className='max-w-32 hidden md:flex'>{ product.stock }</Td>
-                <Td className='max-w-36 hidden md:flex'>R$ { Format.money(product.value) }</Td>
-                <Td className='max-w-32 hidden md:flex' title={Format.date(product.updatedAt)}>{ Format.stringDate(product.updatedAt) }</Td>
-                <Td className='max-w-32 hidden md:flex' title={Format.date(product.createdAt)}>{ Format.stringDate(product.createdAt) }</Td>
-              </Tr>
-
-            ))}
-
-            { loading &&
-              <Tr className='list'>
-                {/* <Td className='w-full flex gap-2 justify-center'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/></Td> */}
-                <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
-                <Td><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
-                <Td className='max-w-36 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
-                <Td className='max-w-32 hidden md:flex'><Svg.Spinner className='w-5 h-5 fill-background-2 dark:fill-background-2-dark opacity-[.4]'/></Td>
-              </Tr>
-            }
-
-          </Tbody>
-        </Table>
-
-
-        <Button onClick={() => !loading && getPaginatedProduct((page + 1))} className={`w-full flex justify-center border-0 dark:border-0 bg-transparent ${productArray.length >= total ? 'hidden' : ''}`}>
-          <Observer isIntersecting={()=> !loading && getPaginatedProduct((page + 1))}/>
-          <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
-        </Button>
-
-      </section>
-
+      </div>
       <ProductModal isOpen={modal} onClose={data => closeModal(data)} product={selected ? selected : undefined}/>
-
-    </div>
-
+    </>
   )
 
 }
