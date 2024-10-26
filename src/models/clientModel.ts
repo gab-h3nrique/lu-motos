@@ -17,11 +17,11 @@ function model() {
             const data = await prisma.clients.findFirst({
 
                 where: {
+                    id: input, 
                     OR: [
-                        { id: input }, 
-                        { name:{ contains: input } }, 
-                        { email:{ contains: input } }, 
-                        { document:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { email:{ contains: input, mode: 'insensitive' } }, 
+                        { document:{ contains: input, mode: 'insensitive' } }, 
                         { number:{ contains: input } }
                     ],
                 },
@@ -39,9 +39,9 @@ function model() {
 
                 where: {
                     OR: [
-                        { name:{ contains: input } }, 
-                        { email:{ contains: input } }, 
-                        { document:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { email:{ contains: input, mode: 'insensitive' } }, 
+                        { document:{ contains: input, mode: 'insensitive' } }, 
                         { number:{ contains: input } }
                     ],
                 },
@@ -89,9 +89,9 @@ function model() {
 
                 where: {
                     OR: [
-                        { name:{ contains: input } }, 
-                        { email:{ contains: input } }, 
-                        { document:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { email:{ contains: input, mode: 'insensitive' } }, 
+                        { document:{ contains: input, mode: 'insensitive' } }, 
                         { number:{ contains: input } }
                     ],
                     createdAt: {
@@ -109,9 +109,9 @@ function model() {
             const total = await prisma.clients.count({
                 where: {
                     OR: [
-                        { name:{ contains: input } }, 
-                        { email:{ contains: input } }, 
-                        { document:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { email:{ contains: input, mode: 'insensitive' } }, 
+                        { document:{ contains: input, mode: 'insensitive' } }, 
                         { number:{ contains: input } }
                     ],
                     createdAt: {

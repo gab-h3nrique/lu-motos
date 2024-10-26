@@ -18,11 +18,11 @@ function model() {
             const data = await prisma.orders.findFirst({
 
                 where: {
+                    id: input, 
                     OR: [
-                        { id: input }, 
-                        { model:{ contains: String(input) } }, 
-                        { client:{ name: { contains: String(input) }} }, 
-                        { client:{ email: { contains: String(input) }} }, 
+                        { model:{ contains: String(input), mode: 'insensitive' } }, 
+                        { client:{ name: { contains: String(input), mode: 'insensitive' }} }, 
+                        { client:{ email: { contains: String(input), mode: 'insensitive' }} }, 
                     ],
                 },
                 include: { user: true, client: true, orderProducts: true },
@@ -39,9 +39,9 @@ function model() {
 
                 where: {
                     OR: [
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { model:{ contains: input, mode: 'insensitive' } }, 
+                        { client:{ name: { contains: input, mode: 'insensitive' }} }, 
+                        { client:{ email: { contains: input, mode: 'insensitive' }} }, 
                     ],
                 },
                 include: { user: true, client: true, orderProducts: true },
@@ -59,7 +59,7 @@ function model() {
 
             const data = await prisma.orders.upsert({
                 where: {
-                    id: item.id || -1
+                    id: rest.id || -1
                 },
                 update: rest,
                 create: rest,
@@ -90,9 +90,9 @@ function model() {
 
                 where: {
                     OR: [
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { model:{ contains: input, mode: 'insensitive' } }, 
+                        { client:{ name: { contains: input, mode: 'insensitive' }} }, 
+                        { client:{ email: { contains: input, mode: 'insensitive' }} }, 
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,
@@ -109,9 +109,9 @@ function model() {
             const total = await prisma.orders.count({
                 where: {
                     OR: [
-                        { model:{ contains: input } }, 
-                        { client:{ name: { contains: input }} }, 
-                        { client:{ email: { contains: input }} }, 
+                        { model:{ contains: input, mode: 'insensitive' } }, 
+                        { client:{ name: { contains: input, mode: 'insensitive' }} }, 
+                        { client:{ email: { contains: input, mode: 'insensitive' }} }, 
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,

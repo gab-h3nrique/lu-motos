@@ -1,38 +1,65 @@
 "use client"
 
 import { UserProvider } from '@/contexts/UserContext'
-import React, { memo, useState } from 'react'
+import React, { memo, Suspense, useState } from 'react'
 import Button from '@/components/elements/Button'
 import { Description, Subtitle, Title } from '@/components/texts/Texts'
+import Svg from '@/components/icons/Svg'
+import { useRouter } from 'next/navigation'
+import Loading from '@/components/Loading'
 
 const Page = () => {
 
-
+    const router = useRouter()
 
     return (
 
-        <div className='p-4 gap-4 w-full h-full flex flex-col'>
+        <Suspense fallback={<Loading/>}>
+            <div className='p-4 gap-1 w-full h-full flex flex-col'>
 
-            <Subtitle className='font-semibold'>Home</Subtitle>
-
-            <section className='flex gap-2'>
-
-                <div className="border dark:border-dark bg-background-2 dark:bg-background-2-dark flex flex-col p-4 gap-2 w-80 rounded-2xl">
-
-                    <h1 className="subtitle text-color-1 dark:text-color-1-dark"><b className='text-primary mr-3'>45</b>Novos atendimentos</h1>
-
-                    <p className="description text-color-1 dark:text-color-1-dark">Clique para inic</p>
-                    <span className="label text-color-1 dark:text-color-1-dark w-fit bg-background-1 dark:bg-background-1-dark rounded-lg px-1 py-2">any-link-click-here.com.br</span>
-
-                    <Button onClick={()=> console.log('hehehe')} className="ml-auto">
-                        <Description>teste</Description>
-                    </Button>
-
+                <Subtitle className='font-semibold'>Home</Subtitle>
+    
+                <Description onClick={router.back} className='flex gap-1 cursor-pointer'>
+                <Svg.Angle className='w-4 h-4 fill-color-1 dark:fill-color-1-dark -rotate-90 mt-[.25rem]'/>
+                voltar
+                </Description>
+    
+                <section className='mt-3 flex flex-wrap gap-4'>
+        
+                <div className=" border dark:border-dark bg-background-2 dark:bg-background-2-dark flex flex-col p-4 gap-2 w-80 rounded-2xl">
+        
+                    <Subtitle className="">Atendimentos</Subtitle>
+        
+                    <p className="description text-color-1 dark:text-color-1-dark">Crie ou finalize um novo atendimento</p>
+        
+                    <Button onClick={() => router.push('/auth/atendimentos')} className='mt-3 ml-auto text-color-2 dark:text-color-2-dark'>Acessar</Button>
+        
+                </div>
+        
+                <div className=" border dark:border-dark bg-background-2 dark:bg-background-2-dark flex flex-col p-4 gap-2 w-80 rounded-2xl">
+        
+                    <Subtitle className="">Estoque</Subtitle>
+        
+                    <p className="description text-color-1 dark:text-color-1-dark">Gerencie seu estoque</p>
+        
+                    <Button onClick={() => router.push('/auth/estoque')} className='mt-3 ml-auto text-color-2 dark:text-color-2-dark'>Acessar</Button>
+        
                 </div>
 
-            </section>
-
-        </div>
+                <div className=" border dark:border-dark bg-background-2 dark:bg-background-2-dark flex flex-col p-4 gap-2 w-80 rounded-2xl">
+        
+                    <Subtitle className="">Dashboard</Subtitle>
+        
+                    <p className="description text-color-1 dark:text-color-1-dark">Veja os resultados dos seus atendimentos</p>
+        
+                    <Button onClick={() => router.push('/auth/dashboard')} className='mt-3 ml-auto text-color-2 dark:text-color-2-dark'>Acessar</Button>
+        
+                </div>
+        
+                </section>
+    
+            </div>
+        </Suspense>
         
     )
 

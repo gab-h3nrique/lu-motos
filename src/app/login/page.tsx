@@ -20,7 +20,7 @@ function Page() {
 
   const notification = useNotification()
 
-  const [ userLogin, setUserLogin] = useState({ email: '', password: '' })
+  const [ userLogin, setUserLogin] = useState({ email: 'gabrielbielrique10@gmail.com', password: '123456789' })
 
   const [ stayConnected, setStayConnected] = useState(false)
 
@@ -46,7 +46,7 @@ function Page() {
 
       await Cookie.set('auth', token, (stayConnected ? 360 : 1))
     
-      notification({ type: 'success', title: 'Sucesso!', description: 'Logado com sucesso!.', time: 1000 })
+      notification({ type: 'success', title: 'Sucesso!', description: 'Logado com sucesso!', time: 1000 })
 
       setTimeout(()=> router.push('/auth'), 200)
 
@@ -68,7 +68,7 @@ function Page() {
     
     <main className='flex w-full h-full'>
 
-      <section className="gap-10 flex flex-col justify-center items-center w-full h-full bg-background-1">
+      <section className="gap-10 flex flex-col justify-center items-center w-full h-full bg-background-1 dark:bg-background-1-dark">
 
         <Title>Login</Title>
 
@@ -76,9 +76,9 @@ function Page() {
 
         <section className='flex flex-col gap-4'>
 
-          <Input type='email' onChange={(e) => setUserLogin((prev) => ({...prev, email: e.target.value}))} value={userLogin.email} placeholder='Email' icon={<Svg.Envelope className='fill-white mt-[.15rem] w-5 h-5'/>}/>
+          <Input type='email' onChange={(e) => setUserLogin((prev) => ({...prev, email: e.target.value}))} value={userLogin.email} placeholder='Email' icon={<Svg.Envelope className='fill-color-1 dark:fill-color-1-dark mt-[.15rem] w-5 h-5'/>}/>
 
-          <Input type='password' onChange={(e) => setUserLogin((prev) => ({...prev, password: e.target.value}))} value={userLogin.password} placeholder='Senha' icon={<Svg.Key className='fill-white mt-[.15rem] w-5 h-5'/>}/>
+          <Input type='password' onChange={(e) => setUserLogin((prev) => ({...prev, password: e.target.value}))} value={userLogin.password} placeholder='Senha' icon={<Svg.Key className='fill-color-1 dark:fill-color-1-dark mt-[.15rem] w-5 h-5'/>}/>
 
           <Description className='flex gap-2 cursor-pointer opacity-80'>
             <Checkbox onChange={(e) => setStayConnected((prev) => e.target.checked)} value={stayConnected} className={`w-5 h-5 `}/>
@@ -87,9 +87,9 @@ function Page() {
 
           <Description className='text-red-500/60'>{message}</Description>
 
-          <Button onClick={login} className='flex gap-2 justify-center items-center w-full bg-primary'>
-            <Svg.Spinner className={`w-5 h-5 ${!loading ? 'hidden' : ''}`}/>
-            <Description>{ loading ? 'Entrando...' : 'Entrar'}</Description>
+          <Button onClick={login} className='flex gap-2 justify-center items-center w-full bg-primary text-background-2 dark:text-background-2-dark'>
+            <Svg.Spinner className={`w-5 h-5 fill-color-1 dark:fill-color-1-dark ${!loading ? 'hidden' : ''}`}/>
+            { loading ? 'Entrando...' : 'Entrar'}
           </Button>
 
         </section>
@@ -100,7 +100,7 @@ function Page() {
 
       <section className="hidden lg:flex justify-center items-center w-full h-full bg-primary">
 
-        <Svg.Logo className='fill-white w-[345px] h-[180px]'/>
+        <Svg.Logo className='fill-background-2 dark:fill-background-2-dark w-[345px] h-[180px]'/>
 
       </section>
 

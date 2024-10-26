@@ -6,7 +6,7 @@ export const ThemeContext = createContext<any>(null);
 
 export const ThemeProvider = ({ children }:any) => {
 
-    const [ theme, setTheme ] = useState('light');
+    const [ theme, setTheme ] = useState('dark');
 
     function change(value: string) {
 

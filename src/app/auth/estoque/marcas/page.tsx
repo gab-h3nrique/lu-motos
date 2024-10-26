@@ -4,6 +4,7 @@ import Button from '@/components/elements/Button'
 import Input from '@/components/elements/Input'
 import { Table, Td, Tr, Th, Tbody } from '@/components/elements/Table'
 import Svg from '@/components/icons/Svg'
+import Loading from '@/components/Loading'
 import BrandModal from '@/components/modals/brand/BrandModal'
 import Observer from '@/components/Observer'
 import { Description, Label, Subtitle } from '@/components/texts/Texts'
@@ -13,7 +14,7 @@ import { BrandType } from '@/types/brandType'
 import { ProductType } from '@/types/productType'
 import Format from '@/utils/format'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { memo, use, useEffect, useState } from 'react'
+import React, { memo, Suspense, use, useEffect, useState } from 'react'
 
 function Page() {
 
@@ -116,7 +117,7 @@ function Page() {
 
   return (
 
-    <>
+    <Suspense fallback={<Loading/>}>
       <div className={`gap-1 w-full h-fit flex-col relative overflow-hidden ${modal ? 'hidden' : 'flex'}`}>
 
         <Subtitle className='font-semibold'>Marcas</Subtitle>
@@ -172,7 +173,7 @@ function Page() {
 
       </div>
       <BrandModal isOpen={modal} onClose={data => closeModal(data)} brand={selected ? selected : undefined}/>
-    </>
+    </Suspense>
 
   )
 

@@ -5,6 +5,7 @@ import Input from '@/components/elements/Input'
 import Status from '@/components/elements/Status'
 import { Table, Td, Tr, Th, Tbody } from '@/components/elements/Table'
 import Svg from '@/components/icons/Svg'
+import Loading from '@/components/Loading'
 import OrderModal from '@/components/modals/order/OrderModal'
 import Observer from '@/components/Observer'
 import { Description, Label, Subtitle } from '@/components/texts/Texts'
@@ -14,7 +15,7 @@ import { OrderType } from '@/types/orderType'
 import { ProductType } from '@/types/productType'
 import Format from '@/utils/format'
 import { useRouter, usePathname } from 'next/navigation'
-import React, { memo, use, useEffect, useState } from 'react'
+import React, { memo, Suspense, use, useEffect, useState } from 'react'
 
 
 function Page() {
@@ -26,7 +27,7 @@ function Page() {
 
   const [ filter, setFilter ] = useState({ input: '', date: '', })
 
-  const [ ordersArray, setOrdersArray ] = useState<OrderType[]>([])
+  const [ array, setArray ] = useState<OrderType[]>([])
 
   const [ total, setTotal ] = useState(0)
 
@@ -56,8 +57,8 @@ function Page() {
 
       setTotal(total || 0)
 
-      if(search) setOrdersArray(data)
-      else setOrdersArray(prev => ([ ...prev, ...data ]))
+      if(search) setArray(data)
+      else setArray(prev => ([ ...prev, ...data ]))
 
     } catch (error) {
 
@@ -103,16 +104,15 @@ function Page() {
 
     const { updated, deleted } = data
 
-    if(deleted && deleted.id) setOrdersArray(prev => prev.filter(e => e.id !== deleted.id) )
+    if(deleted && deleted.id) setArray(prev => prev.filter(e => e.id !== deleted.id) )
 
     if(updated && updated.id) {
       
-      const index = ordersArray.findIndex(e => e.id == updated.id)
+      const exists = array.some(e => e.id == updated.id)
 
-      console.log('updated: ', updated)
+      if(!exists) return setArray(prev => [ {...updated} , ...prev ])
 
-      if(index !== -1) setOrdersArray(prev => (prev.map(e => e.id === updated.id ? { ...updated } : e )))
-      else setOrdersArray(prev => [ { ...updated } , ...prev ])
+      setArray(prev => [...prev.map(e => e.id == updated.id ? {...updated} : e)])
 
     }
 
@@ -127,7 +127,7 @@ function Page() {
 
   return (  
 
-    <>
+    <Suspense fallback={<Loading/>}>
       <div className={`gap-1 w-full h-fit flex-col relative overflow-hidden ${modal ? 'hidden' : 'flex'}`}>
 
         <Subtitle className='font-semibold'>Atendimentos</Subtitle>
@@ -159,7 +159,7 @@ function Page() {
                 <Th className='text-start font-semibold max-w-32 hidden md:flex'>Data</Th>
               </Tr>
 
-              { ordersArray.map((item, i)=> (
+              { array.map((item, i)=> (
 
                 <Tr key={`id-${i}`} className='list' onClick={() => openOrderModal(item)}>
                   <Td className='text-start font-semibold max-w-40'>{ item.model }</Td>
@@ -187,7 +187,7 @@ function Page() {
           </Table>
 
 
-          <Button onClick={() => !loading && getPaginated((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${ ordersArray.length >= total ? 'hidden' : ''}`}>
+          <Button onClick={() => !loading && getPaginated((page + 1))} className={`w-full flex justify-center border-0 bg-transparent ${ array.length >= total ? 'hidden' : ''}`}>
             <Observer isIntersecting={()=> !loading && getPaginated((page + 1))}/>
             <Description>{ !loading ? 'Carregar mais' : 'Carregando...' }</Description>
           </Button>
@@ -197,7 +197,7 @@ function Page() {
 
       </div>
       <OrderModal isOpen={modal} onClose={data => closeOrderModal(data)} order={selectedOrder ? selectedOrder : undefined}/>
-    </>
+    </Suspense>
 
   )
 

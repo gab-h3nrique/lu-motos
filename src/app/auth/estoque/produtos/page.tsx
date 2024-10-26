@@ -4,6 +4,7 @@ import Button from '@/components/elements/Button'
 import Input from '@/components/elements/Input'
 import { Table, Td, Tr, Th, Tbody } from '@/components/elements/Table'
 import Svg from '@/components/icons/Svg'
+import Loading from '@/components/Loading'
 import ProductModal from '@/components/modals/product/ProductModal'
 import Observer from '@/components/Observer'
 import { Description, Label, Subtitle } from '@/components/texts/Texts'
@@ -12,7 +13,7 @@ import Api from '@/providers/http'
 import { ProductType } from '@/types/productType'
 import Format from '@/utils/format'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { memo, use, useEffect, useState } from 'react'
+import React, { memo, Suspense, use, useEffect, useState } from 'react'
 
 function Page() {
 
@@ -117,7 +118,7 @@ function Page() {
 
   return (
 
-    <>
+    <Suspense fallback={<Loading/>}>
       <div className={`gap-1 w-full h-fit flex-col relative overflow-hidden ${modal ? 'hidden' : 'flex'}`}>
 
         <Subtitle className='font-semibold'>Produtos</Subtitle>
@@ -130,7 +131,12 @@ function Page() {
         <section className='mt-3 w-full h-full flex flex-col gap-4'>
 
           <div className='gap-4 flex w-full justify-end'>
-            <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
+            <Input className='w-44' type='text' onKeyUp={(e: any) => e.key == 'Enter' && getPaginatedProduct(1, true)} onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={
+              <>
+                <Svg.MagnifyingGlass onClick={() => getPaginatedProduct(1, true)} className={`fill-color-2 mt-[.15rem] w-5 h-5 cursor-pointer ${loading ? 'hidden' : ''}`}/>
+                <Svg.Spinner className={`fill-color-2 mt-[.15rem] w-5 h-5 ${loading ? '' : 'hidden'}`}/>
+              </>
+            }/>
             <Button onClick={() => openModal(null)} className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark'>
               <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
               Novo produto
@@ -190,7 +196,7 @@ function Page() {
 
       </div>
       <ProductModal isOpen={modal} onClose={data => closeModal(data)} product={selected ? selected : undefined}/>
-    </>
+    </Suspense>
   )
 
 }

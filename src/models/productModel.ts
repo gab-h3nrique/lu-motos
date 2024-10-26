@@ -15,11 +15,11 @@ function model() {
             const product = await prisma.products.findFirst({
 
                 where: {
+                    id: input,
                     OR: [
-                        { id: input }, 
-                        { name:{ contains: input } }, 
-                        { type:{ contains: input } }, 
-                        { brand:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { type:{ contains: input, mode: 'insensitive' } }, 
+                        { brand:{ contains: input, mode: 'insensitive' } }, 
                     ],
                 },
 
@@ -35,9 +35,9 @@ function model() {
 
                 where: {
                     OR: [
-                        { name:{ contains: input } }, 
-                        { type:{ contains: input } }, 
-                        { brand:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { type:{ contains: input, mode: 'insensitive' } }, 
+                        { brand:{ contains: input, mode: 'insensitive' } }, 
                     ],
                 },
                 orderBy: { id: 'desc'}
@@ -85,9 +85,9 @@ function model() {
 
                 where: {
                     OR: [
-                        { name:{ contains: input } }, 
-                        { type:{ contains: input } }, 
-                        { brand:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { type:{ contains: input, mode: 'insensitive' } }, 
+                        { brand:{ contains: input, mode: 'insensitive' } }, 
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,
@@ -103,9 +103,9 @@ function model() {
             const total = await prisma.products.count({
                 where: {
                     OR: [
-                        { name:{ contains: input } }, 
-                        { type:{ contains: input } }, 
-                        { brand:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
+                        { type:{ contains: input, mode: 'insensitive' } }, 
+                        { brand:{ contains: input, mode: 'insensitive' } }, 
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,

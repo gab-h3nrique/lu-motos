@@ -15,9 +15,9 @@ function model() {
             const brand = await prisma.brands.findFirst({
 
                 where: {
+                    id: input,
                     OR: [
-                        { id: input }, 
-                        { name:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
                     ],
                 },
 
@@ -33,7 +33,7 @@ function model() {
 
                 where: {
                     OR: [
-                        { name:{ contains: input } }, 
+                        { name:{ contains: input, mode: 'insensitive' } }, 
                     ],
                 },
                 orderBy: { id: 'desc'}
@@ -78,7 +78,7 @@ function model() {
             const data = await prisma.brands.findMany({
 
                 where: {
-                    name:{ contains: input }
+                    name:{ contains: input, mode: 'insensitive' }
                 },
                 skip: index,
                 take: limit,
@@ -88,7 +88,7 @@ function model() {
 
             const total = await prisma.products.count({
                 where: {
-                    name:{ contains: input }
+                    name:{ contains: input, mode: 'insensitive' }
                 },
             }) || 0
 

@@ -19,7 +19,7 @@ function fetchApi() {
 
                 method: 'GET',
                 cache: init?.cache || 'no-store',
-                next: { revalidate: init?.next?.revalidate } || undefined,
+                // next: { revalidate: init?.next?.revalidate } || undefined,
                 headers: init?.headers || {
                     'Content-Type': 'application/json;charset=utf-8',
                     'Authorization': `Bearer ${await Cookie.get('auth')}`,
@@ -36,7 +36,7 @@ function fetchApi() {
             const response = await fetch(url, {
                 method: 'POST',
                 cache: init?.cache || 'no-store',
-                next: { revalidate: init?.next?.revalidate } || undefined,
+                // next: { revalidate: init?.next?.revalidate } || undefined,
                 headers: init?.headers || {
                     'Content-Type': 'application/json;charset=utf-8',
                     'Authorization': `Bearer ${await Cookie.get('auth')}`,
@@ -52,7 +52,8 @@ function fetchApi() {
 
             const response = await fetch(url + `${ object ? `?${new URLSearchParams(object)}` : ''}`, {
                 method: 'DELETE',
-                mode: 'cors',
+                cache: 'no-store',
+                // mode: 'cors',
                 headers: {
                     // 'Allow-Access-Control-Origin': `${absoluteUrl()}`,
                     'Content-Type': 'application/json;charset=utf-8',
