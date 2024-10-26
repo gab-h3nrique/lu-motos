@@ -20,7 +20,7 @@ function Page() {
 
   const notification = useNotification()
 
-  const [ userLogin, setUserLogin] = useState({ email: 'gabrielbielrique10@gmail.com', password: '123456789' })
+  const [ userLogin, setUserLogin] = useState({ email: '', password: '' })
 
   const [ stayConnected, setStayConnected] = useState(false)
 
