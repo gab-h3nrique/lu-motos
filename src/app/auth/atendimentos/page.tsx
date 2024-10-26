@@ -141,9 +141,9 @@ function Page() {
 
           <div className='gap-4 flex w-full justify-end'>
             <Input className='w-44' type='text' onChange={(e) => setFilter((prev) => ({...prev, input: e.target.value}))} value={filter.input} placeholder='Pesquisar' icon={<Svg.MagnifyingGlass className='fill-color-2 mt-[.15rem] w-5 h-5'/>}/>
-            <Button className='bg-primary overflow-hidden text-background-2 dark:text-background-2-dark' onClick={() => openOrderModal(null)}>
+            <Button className='bg-primary truncate text-background-2 dark:text-background-2-dark' onClick={() => openOrderModal(null)}>
               <Svg.Plus className='w-5 h-5 fill-background-2 dark:fill-background-2-dark'/>
-              Novo atendimento
+              <span className='truncate'>Novo Atendimentos</span>
             </Button>
           </div>
 
